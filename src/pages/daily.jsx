@@ -25,16 +25,36 @@ const Daily = () => {
         }, [])
     }, []);
 
+    const updateData = (data) =>{
+        const NewArray = boxes.map(item => {
+            if (item.code == data.getAttribute("data-id")){
+                item.selected = data.checked
+            }
+            return item
+        })
+        setBoxes(NewArray)
+    }
+    
     return (
-        <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto mt-8">
-            {boxes.map(post => (
-                (post.type == "check" ? (
-                    <div key={post.code} className="py-6 border-2 rounded border-solid border-gray-300 flex items-center justify-center flex-col">
-                        <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-14 max-h-16" />
-                        <p className="leading-5 mt-3">{post.title}</p>
-                    </div>
-                ) : (''))
-            ))}
+        <div>
+            <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto mt-8">
+                {boxes.map(post => (
+                    (post.type == "check" ? (
+                        <div key={post.code} className="py-6 border-2 rounded border-solid border-gray-300 flex items-center justify-center flex-col">
+                            <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-14 max-h-16" />
+                            <p className="leading-5 mt-3">{post.title}</p>
+                            <input type="checkbox" 
+                                data-id = {post.code}
+                                checked = {post.selected}
+                                onChange = {
+                                    (e) => {updateData(e.target)}
+                                }
+                        />
+                        </div>
+                    ) : (''))
+                ))}
+            </div>
+           
         </div>
     )
 }
