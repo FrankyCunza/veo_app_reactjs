@@ -1,4 +1,9 @@
+import React, { useState } from 'react';
+
 const Daily = () => {
+
+    const [count, setCount] = useState(0);
+
     return (
         <div>
             <div>
@@ -21,7 +26,17 @@ const Daily = () => {
                 <label>Cinco</label>
                 <input type="checkbox" />
             </div>
+
+            <div>
+                <p>You clicked {count} times</p>
+                <button onClick={() => setCount(count + 1)}>
+                    Click me
+                </button>
+            </div>
+
         </div>
+
+        
     )
 }
 
