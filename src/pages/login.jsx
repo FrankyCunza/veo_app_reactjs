@@ -1,6 +1,6 @@
 const Login = () => {
     return (
-        <h1>"Hello Login!"</h1>
+        <h1 className="text-3xl text-red-600">"Hello Login!"</h1>
     )
 }
 
