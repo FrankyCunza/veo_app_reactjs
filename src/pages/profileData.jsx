@@ -22,7 +22,7 @@ const Profile = () => {
             params: param
         }).then(response => {
             setData(response.data.data)
-            // console.log(response.data.data)
+            console.log(response.data.data)
             getProfile()
         }, [])
     }, []);
@@ -37,7 +37,7 @@ const Profile = () => {
                 id: localStorage.getItem('id')
             },
         }).then(response => {
-            console.log(response)
+            // console.log(response)
             setProfile(response.data.data.data)
         }, [])
     }
@@ -140,6 +140,37 @@ const Profile = () => {
                             <div className="mt-2 text-left w-full" key={i}>
                                 <label htmlFor="" className="block mb-1">{item.title}</label>
                                 <input type="address" name="" id="" defaultValue={profile[item.form_type]} className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                            </div>
+                        )
+                    } else if (item.type == "pesoTalla") {
+                        return (
+                            <div key={i}>
+                                <div className="mt-2 text-left w-full">
+                                    <label htmlFor="" className="block mb-1">Peso:</label>
+                                    <input type="address" name="" id="" defaultValue={profile['weight']} className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                                </div>
+                                <div className="mt-2 text-left w-full">
+                                    <label htmlFor="" className="block mb-1">Talla:</label>
+                                    <input type="address" name="" id="" defaultValue={profile['size']} className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                                </div>
+                                <div className="mt-2 text-left w-full">
+                                    <label htmlFor="" className="block mb-1">IMC:</label>
+                                    <input type="address" name="" id="" defaultValue={profile['IMC']} className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                                </div>
+                            </div>
+                        )
+                    }  else if (item.type == "checkboxes") {
+                        return (
+                            <div className="mt-2 text-left w-full" key={i}>
+                                <h2 className="text-lg font-semibold">{item.title}</h2>
+                                {item.loop.map((loop, d) => {
+                                    return (
+                                        <div key={d}>
+                                            <label htmlFor="">{loop.name}</label>
+                                            <input type="checkbox" />
+                                        </div>
+                                    )
+                                })}                                
                             </div>
                         )
                     }
