@@ -1,43 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, setState } from 'react';
+import axios from 'axios'
 
 const Daily = () => {
-    // // PRUEBA DE DATOS VARIABLES
-    const dataTest1 = [{"id": 1, "status": false}, {"id": 2, "status": false},{"id": 3, "status": true},{"id": 4, "status": false},{"id": 5, "status": false}]
-    const [dataTest, setdataTest] = useState(dataTest1)
-    
+    const [boxes, setBoxes] = useState([]);
+    useEffect(() => {
+        const param = {
+            company_id: localStorage.getItem('company_id'),
+            end_point: localStorage.getItem('end_point'),
+            page: 'daily-test'
+        };
+
+        axios({
+            method: 'get',
+            url: 'https://gateway.vim365.com/checkcards/cards',
+            headers: {
+                'security-header': 'Vim365Aputek/2020.04',
+                Authorization: localStorage.getItem('token'),
+                id: localStorage.getItem('id')
+            },
+            params: param
+        }).then(response => {
+            setBoxes(response.data.data)
+            console.log(boxes)
+        }, [])
+    }, []);
 
     const updateData = (data) =>{
-        const NewArray = dataTest.map(item => {
-            if (item.id == data.getAttribute("data-id")){
-                item.status = data.checked
+        const NewArray = boxes.map(item => {
+            if (item.code == data.getAttribute("data-id")){
+                item.selected = data.checked
             }
             return item
         })
-        console.log(NewArray)
         setdataTest(NewArray)
-
     }
     
     return (
         <div>
-            {
-                dataTest.map(item =>
-                    <div>
-                        <label>{item.id}</label>
-                        <input type="checkbox" 
-                                data-id = {item.id}
-                                checked = {item.status}
+            <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto mt-8">
+                {boxes.map(post => (
+                    (post.type == "check" ? (
+                        <div key={post.code} className="py-6 border-2 rounded border-solid border-gray-300 flex items-center justify-center flex-col">
+                            <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-14 max-h-16" />
+                            <p className="leading-5 mt-3">{post.title}</p>
+                            <input type="checkbox" 
+                                data-id = {post.code}
+                                checked = {post.selected}
                                 onChange = {
                                     (e) => {updateData(e.target)}
                                 }
                         />
-                    </div>
-                )
-            }
-
+                        </div>
+                    ) : (''))
+                ))}
+            </div>
+           
         </div>
-
-        
     )
 }
 
