@@ -34,6 +34,10 @@ const Daily = () => {
         })
         setBoxes(NewArray)
     }
+
+    const sendData = () => {
+        console.log(boxes)
+    }
     
     return (
         <div>
@@ -54,7 +58,9 @@ const Daily = () => {
                     ) : (''))
                 ))}
             </div>
-           
+            <div className="w-full flex justify-center mt-4">
+               <button type="button" className="rounded bg-blue-500 py-2 px-6 text-white" onClick={sendData}>Enviar</button>
+            </div>
         </div>
     )
 }
