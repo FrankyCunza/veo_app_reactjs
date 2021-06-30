@@ -91,6 +91,40 @@ const Profile = () => {
                                 <input type="address" name="" id="" className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
                             </div>
                         )
+                    } else if (item.type == "title") {
+                        return (
+                            <div className="mt-2 text-left w-full" key={i}>
+                                <h2 className="text-lg font-semibold">{item.title}</h2>
+                            </div>
+                        )
+                    } else if (item.form_type == "work_job") {
+                        return (
+                            <div className="mt-2 text-left w-full" key={i}>
+                                <label htmlFor="" className="block mb-1">{item.title}</label>
+                                <input type="address" name="" id="" className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                            </div>
+                        )
+                    } else if (item.form_type == "work_address") {
+                        return (
+                            <div className="mt-2 text-left w-full" key={i}>
+                                <label htmlFor="" className="block mb-1">{item.title}</label>
+                                <input type="address" name="" id="" className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                            </div>
+                        )
+                    } else if (item.form_type == "work_area") {
+                        return (
+                            <div className="mt-2 text-left w-full" key={i}>
+                                <label htmlFor="" className="block mb-1">{item.title}</label>
+                                <input type="address" name="" id="" className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                            </div>
+                        )
+                    } else if (item.form_type == "work_name") {
+                        return (
+                            <div className="mt-2 text-left w-full" key={i}>
+                                <label htmlFor="" className="block mb-1">{item.title}</label>
+                                <input type="address" name="" id="" className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                            </div>
+                        )
                     }
                 })}
             </div>
