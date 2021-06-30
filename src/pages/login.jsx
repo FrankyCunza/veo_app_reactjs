@@ -1,5 +1,6 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios'
+import  { Redirect, useHistory } from 'react-router-dom'
 
 const formReducer = (state, event) => {
     return {
@@ -9,7 +10,7 @@ const formReducer = (state, event) => {
 }
 
 const Login = () => {
-
+    let history = useHistory()
     const [formData, setFormData] = useReducer(formReducer, {});
     const [submitting, setSubmitting] = useState(false);
 
@@ -46,6 +47,8 @@ const Login = () => {
             for (const [key, value] of Object.entries(data.data)) {
                 localStorage.setItem(key, value)
             }
+            history.push("/daily")
+            // return <Redirect to='/daily'  />
         })
 
         // setTimeout(() => {
