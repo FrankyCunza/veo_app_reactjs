@@ -32,7 +32,7 @@ const Daily = () => {
             }
             return item
         })
-        setdataTest(NewArray)
+        setBoxes(NewArray)
     }
     
     return (
