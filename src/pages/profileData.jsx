@@ -31,11 +31,16 @@ const Profile = () => {
                 {data.map((item, i) => {
                     if (item.type == "document") {
                         return (
-                            item.loop.map((loop) => {
-                                return(
-                                    <div className="bg-gray-200 rounded px-6 py-3 flex w-max">{loop}</div>
-                                )
-                            })
+                            <div className="mt-2 text-left w-full">
+                                <label htmlFor="" className="block mb-1">{item.title}</label>
+                                <div className="flex" key={i}>
+                                    {item.loop.map((loop, d) => {
+                                        return(
+                                            <div className={`bg-gray-200 rounded px-6 py-3 flex w-max ${d == 0 ? '' : 'ml-2'}`}>{loop}</div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
                         )
                     } else if (item.form_type == "text") {
                         return (
