@@ -1,4 +1,29 @@
+import React, { useReducer, useState, useEffect } from 'react';
+import axios from 'axios'
+
 const Daily = () => {
+    const [data, setData] = useState([]);
+    useEffect(async () => {
+        const param = {
+            company_id: localStorage.getItem('company_id'),
+            end_point: localStorage.getItem('end_point'),
+            page: 'DeclarationReactive'
+        };
+    
+        axios({
+            method: 'get',
+            url: 'https://gateway.vim365.com/checkcards/cards',
+            headers: {
+                'security-header': 'Vim365Aputek/2020.04',
+                Authorization: localStorage.getItem('token'),
+                id: localStorage.getItem('id')
+            },
+            params: param
+        }).then(data => {
+            console.log(data)
+        })
+    });
+
     return (
         <div>
             <div>
