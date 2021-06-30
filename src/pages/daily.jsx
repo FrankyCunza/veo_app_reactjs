@@ -1,15 +1,15 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useState, useEffect, setState } from 'react';
 import axios from 'axios'
 
 const Daily = () => {
-    const [data, setData] = useState([]);
-    useEffect(async () => {
+    const [boxes, setBoxes] = useState([]);
+    useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
             end_point: localStorage.getItem('end_point'),
-            page: 'DeclarationReactive'
+            page: 'daily-test'
         };
-    
+
         axios({
             method: 'get',
             url: 'https://gateway.vim365.com/checkcards/cards',
@@ -19,33 +19,16 @@ const Daily = () => {
                 id: localStorage.getItem('id')
             },
             params: param
-        }).then(data => {
-            console.log(data)
-        })
-    });
+        }).then(response => {
+            setBoxes(response.data.data)
+        }, [])
+    }, []);
 
     return (
         <div>
-            <div>
-                <label>Uno</label>
-                <input type="checkbox" data-id="8" />
-            </div>
-            <div>
-                <label>Dos</label>
-                <input type="checkbox" />
-            </div>
-            <div>
-                <label>Tres</label>
-                <input type="checkbox" />
-            </div>
-            <div>
-                <label>Cuatro</label>
-                <input type="checkbox" />
-            </div>
-            <div>
-                <label>Cinco</label>
-                <input type="checkbox" />
-            </div>
+            {boxes.map(post => (
+                <li key={post.code}>{post.title}</li>
+            ))}
         </div>
     )
 }
