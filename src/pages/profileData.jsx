@@ -83,13 +83,29 @@ const Profile = () => {
     return (
         <div>
             <div className="max-w-xl mx-auto">
-                {ubigee.departaments.map((item, i) => {
-                    return (
-                        <select name="" id="">
-                            <option value="">{item.value}</option>
-                        </select>
-                    )
-                })}
+                <div className="grid grid-cols-3 mt-4 gap-4">
+                    <select name="" id="" className="bg-gray-200 py-3 px-4 rounded">
+                        {ubigee.departaments ? ubigee.departaments.map((item, i) => {
+                            return (
+                                <option value={item.value} key={item.id}>{item.value}</option>
+                                )
+                            }) : ''}
+                    </select>
+                    <select name="" id="" className="bg-gray-200 py-3 px-4 rounded">
+                        {ubigee.provinces ? ubigee.provinces.map((item, i) => {
+                            return (
+                                <option value={item.value} key={item.id}>{item.value}</option>
+                                )
+                            }) : ''}
+                    </select>
+                    <select name="" id="" className="bg-gray-200 py-3 px-4 rounded">
+                        {ubigee.districts ? ubigee.districts.map((item, i) => {
+                            return (
+                                <option value={item.value} key={item.id}>{item.value}</option>
+                                )
+                            }) : ''}
+                    </select>
+                </div>
                 {data.map((item, i) => {
                     if (item.type == "document") {
                         return (
