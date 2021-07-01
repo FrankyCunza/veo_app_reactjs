@@ -1,10 +1,12 @@
-import React, { useState, useEffect, setState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 
 
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
+    const [getData, setGetData] = useState([]);
+    const [sendData, setSendData] = useState([]);
     useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -23,7 +25,10 @@ const Daily = () => {
             params: param
         }).then(response => {
             setBoxes(response.data.data)
-            console.log(boxes)
+            for (const item of response.data.data) {
+                setGetData((s) => [...s, {"code": item.code, "response": item.selected}])
+            }
+            console.log(response.data.data)
         }, [])
     }, []);
 
@@ -37,8 +42,13 @@ const Daily = () => {
         setBoxes(NewArray)
     }
 
-    const sendData = () => {
-        console.log(boxes)
+    const send = () => {
+        let local = {}
+        for (const [key, value] of Object.entries(localStorage)) {
+            local[key] = value
+        }
+        setSendData(local)
+        console.log(getData)
     }
     
     return (
@@ -68,7 +78,7 @@ const Daily = () => {
                 ))}
             </div>
             <div className="w-full flex justify-center mt-4">
-               <button type="button" className="rounded bg-blue-500 py-2 px-6 text-white" onClick={sendData}>Enviar</button>
+               <button type="button" className="rounded bg-blue-500 py-2 px-6 text-white" onClick={send}>Enviar</button>
             </div>
         </div>
     )
