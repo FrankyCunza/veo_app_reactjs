@@ -7,6 +7,8 @@ const Daily = () => {
     const [boxes, setBoxes] = useState([]);
     const [getData, setGetData] = useState([]);
     const [sendData, setSendData] = useState([]);
+    const [range, setRange] = useState([]);
+    const [value, setValue] = useState(0);
     useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -25,14 +27,19 @@ const Daily = () => {
             params: param
         }).then(response => {
             setBoxes(response.data.data)
-            for (const item of response.data.data) {
-                setGetData((s) => [...s, {"code": item.code, "response": item.selected}])
-            }
-            console.log(response.data.data)
+            setRange(response.data.range)
+            // for (const item of response.data.data) {
+            //     setGetData((s) => [...s, {"code": item.code, "response": item.selected}])
+            // }
         }, [])
     }, []);
 
     const updateData = (data) =>{
+        if (data.checked == true) {
+            setValue(value+parseInt(data.value))
+        } else {
+            setValue(value-parseInt(data.value))
+        }
         const NewArray = boxes.map(item => {
             if (item.code == data.getAttribute("data-id")){
                 item.selected = data.checked
@@ -43,12 +50,37 @@ const Daily = () => {
     }
 
     const send = () => {
+        let traffic = ''
+        if (value === range['min_low_range'] || value <= range['max_low_range']) {
+            traffic = 'green'
+        } else if (value === range['min_med_range'] || value <= range['max_med_range']) {
+            traffic = 'yellow'
+        } else if (value === range['min_hig_range'] || value <= range['max_hig_range']) {
+            traffic = 'red'
+        } else {}
+
         let local = {}
         for (const [key, value] of Object.entries(localStorage)) {
             local[key] = value
         }
-        setSendData(local)
-        console.log(getData)
+
+        let data = {
+            ...local,
+            "code": "DT2005",
+            "form": {
+                "answers": []
+            },
+            "status": true,
+            "traffic": traffic,
+            "version": 4.00
+        }
+        for (const item of boxes) {
+            data['form']['answers'].push({code: item.code, response: item.selected})
+        }
+
+        // setSendData({...local, ...data})
+
+        console.log(data)
     }
     
     return (
@@ -67,6 +99,7 @@ const Daily = () => {
                             <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
                             <input type="checkbox" 
                                 data-id = {post.code}
+                                value = {post.value}
                                 className="absolute opacity-0 w-full h-full cursor-pointer"
                                 checked = {post.selected}
                                 onChange = {
