@@ -5,6 +5,7 @@ const Profile = () => {
     const [data, setData] = useState([]);
     const [profile, setProfile] = useState([]);
     const [risksChecks, setrisksChecks] = useState([]);
+    const [ubigee, setUbigee] = useState([]);
 
     useEffect(() => {
         const param = {
@@ -25,9 +26,32 @@ const Profile = () => {
         }).then(response => {
             setData(response.data.data)
             getProfile()
-            console.log(response.data.data)
+            // console.log(response.data.data)
         }, [])
+
+        getUbigee()
     }, []);
+
+    const getUbigee = () => {
+        const param = {
+            company_id: localStorage.getItem('company_id'),
+            end_point: localStorage.getItem('end_point'),
+            page: "ubigeo"
+        };
+        axios({
+            method: 'get',
+            url: 'https://gateway.vim365.com/checkcards/cards',
+            headers: {
+                'security-header': 'Vim365Aputek/2020.04',
+                Authorization: localStorage.getItem('token'),
+                id: localStorage.getItem('id')
+            },
+            params: param
+        }).then(response => {
+            console.log(response)
+            setUbigee(response.data.data)
+        }, [])
+    }
 
     const getProfile = () => {
         axios({
@@ -59,6 +83,13 @@ const Profile = () => {
     return (
         <div>
             <div className="max-w-xl mx-auto">
+                {ubigee.departaments.map((item, i) => {
+                    return (
+                        <select name="" id="">
+                            <option value="">{item.value}</option>
+                        </select>
+                    )
+                })}
                 {data.map((item, i) => {
                     if (item.type == "document") {
                         return (
