@@ -8,6 +8,7 @@ const Daily = () => {
     const [boxes, setBoxes] = useState([]);
     const [range, setRange] = useState([]);
     const [value, setValue] = useState(0);
+    const [submitting, setSubmitting] = useState(false)
     useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -49,6 +50,7 @@ const Daily = () => {
     }
 
     const send = () => {
+        setSubmitting(true)
         let traffic = ''
         if (value === range['min_low_range'] || value <= range['max_low_range']) {
             traffic = 'green'
@@ -100,6 +102,7 @@ const Daily = () => {
             data: JSON.stringify(data)
         }).then(response => {
             console.log(response)
+            setSubmitting(false)
         }, [])
     }
     
@@ -111,24 +114,33 @@ const Daily = () => {
                 </Link>
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Declaración diaria</h1>
             </div>
-            <div className="grid grid-cols-4 gap-4 mt-8">
-                {boxes.map(post => (
-                    (post.type == "check" ? (
-                        <div key={post.code} className={`py-6 relative border-2 cursor-pointer rounded-md border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
-                            <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
-                            <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
-                            <input type="checkbox" 
-                                data-id = {post.code}
-                                value = {post.value}
-                                className="absolute opacity-0 w-full h-full cursor-pointer"
-                                checked = {post.selected}
-                                onChange = {
-                                    (e) => {updateData(e.target)}
-                                }
-                        />
+            <div className="relative">
+                {submitting && 
+                    <div className="absolute w-full h-full bg-white bg-opacity-95 top-0 left-0 z-10 flex justify-center items-center">
+                        <div className="text-gray-700 text-3xl font-semibold">
+                            Cargando...
                         </div>
-                    ) : (''))
-                ))}
+                    </div>
+                }
+                <div className="grid grid-cols-4 gap-4 mt-8">
+                    {boxes.map(post => (
+                        (post.type == "check" ? (
+                            <div key={post.code} className={`py-6 relative border-2 cursor-pointer rounded-md border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
+                                <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
+                                <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
+                                <input type="checkbox" 
+                                    data-id = {post.code}
+                                    value = {post.value}
+                                    className="absolute opacity-0 w-full h-full cursor-pointer"
+                                    checked = {post.selected}
+                                    onChange = {
+                                        (e) => {updateData(e.target)}
+                                    }
+                            />
+                            </div>
+                        ) : (''))
+                    ))}
+                </div>
             </div>
             <div className="w-full flex justify-center mt-4">
                <button type="button" className="rounded bg-blue-500 py-2 px-6 text-white" onClick={send}>Enviar</button>
