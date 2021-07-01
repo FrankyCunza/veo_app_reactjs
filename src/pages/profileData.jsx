@@ -299,6 +299,22 @@ const Profile = () => {
                                                     <input type="text" name={loop.name} id="" className="h-10 rounded border border-blue-400 border-solid w-full" />
                                                 </div>
                                             )
+                                        } else if (loop.type == "select") {
+                                            return (
+                                                <div className="w-full block mt-2">
+                                                    <label className="mb-1 block w-full">{loop.title}</label>
+                                                    <select name="" id="" className="w-full h-10 rounded border border-solid border-blue-400">
+                                                        <option value="">Seleccionar</option>
+                                                        {loop.loop.map((select, l) => {
+                                                            return (
+                                                                <option value="" key={l}>{select}</option>
+                                                            )
+                                                        })}
+                                                    </select>
+                                                </div>
+                                            )
+                                        } else {
+
                                         }
                                     })}
                                 </div>
