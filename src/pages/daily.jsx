@@ -65,21 +65,42 @@ const Daily = () => {
 
         let data = {
             ...local,
-            "code": "DT2005",
             "form": {
+                "code": "DT2005",
+                "traffic": traffic,
+                "status": true,
+                "version": 4.00,
                 "answers": []
             },
-            "status": true,
-            "traffic": traffic,
             "date": dateYYYYMMDD(),
             "hour": HHMMSS(),
-            "version": 4.00
         }
         for (const item of boxes) {
             data['form']['answers'].push({code: item.code, response: item.selected})
         }
         // setSendData({...local, ...data})
         console.log(data)
+
+        // Send Data
+        const param = {
+            company_id: localStorage.getItem('company_id'),
+            end_point: localStorage.getItem('end_point'),
+            page: 'daily-test'
+        };
+
+        axios({
+            method: 'post',
+            url: 'https://gateway.vim365.com/saveform/saveform',
+            headers: {
+                'Content-Type': 'application/json',
+                'security-header': 'Vim365Aputek/2020.04',
+                Authorization: localStorage.getItem('token'),
+                id: localStorage.getItem('id')
+            },
+            data: JSON.stringify(data)
+        }).then(response => {
+            console.log(response)
+        }, [])
     }
     
     return (
