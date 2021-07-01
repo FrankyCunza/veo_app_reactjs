@@ -19,7 +19,10 @@ const Home = () => {
         }, [])
     }, []);
     return (
-        <div className="bg-gray-200 h-screen w-screen">
+        <div className="bg-blue-500 h-screen w-screen">
+            <div className="flex justify-center py-10">
+                <img src="./assets/img/logo-veo365.png" alt="" />
+            </div>
             <div className="max-w-5xl mx-auto">
                 <div className="grid grid-cols-3 gap-6">
                     {main.map((item, i) => {
