@@ -265,6 +265,45 @@ const Profile = () => {
                                 </div>
                             </div>
                         )
+                    } else if (item.type == "emergency_contact") {
+                        return (
+                            <div key={i} className="mt-2 text-left w-full">
+                                <h2 className="text-lg font-semibold">{item.title}</h2>
+                                <div className="">
+                                    {item.data.map((loop, s) => {
+                                        if (loop.type == "name_contact") {
+                                            return (
+                                                <div className="w-full block">
+                                                    <label className="mb-1 block w-full">{loop.title}</label>
+                                                    <input type="text" name={loop.name} id="" className="h-10 rounded border border-blue-400 border-solid w-full" />
+                                                </div>
+                                            )
+                                        } else if (loop.type == "telephone_contact") {
+                                            return (
+                                                <div className="w-full block mt-2">
+                                                    <label className="mb-1 block w-full">{loop.title}</label>
+                                                    <input type="text" name={loop.name} id="" className="h-10 rounded border border-blue-400 border-solid w-full" />
+                                                </div>
+                                            )
+                                        } else if (loop.type == "cellphone_contact") {
+                                            return (
+                                                <div className="w-full block mt-2">
+                                                    <label className="mb-1 block w-full">{loop.title}</label>
+                                                    <input type="text" name={loop.name} id="" className="h-10 rounded border border-blue-400 border-solid w-full" />
+                                                </div>
+                                            )
+                                        } else if (loop.type == "email") {
+                                            return (
+                                                <div className="w-full block mt-2">
+                                                    <label className="mb-1 block w-full">{loop.title}</label>
+                                                    <input type="text" name={loop.name} id="" className="h-10 rounded border border-blue-400 border-solid w-full" />
+                                                </div>
+                                            )
+                                        }
+                                    })}
+                                </div>
+                            </div>
+                        )
                     } else if (item.type == "checkboxes") {
                         return (
                             <div className="mt-2 text-left w-full" key={i}>
