@@ -1,5 +1,6 @@
 import React, { useState, useEffect, setState } from 'react';
 import axios from 'axios'
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
 const Profile = () => {
     const [data, setData] = useState([]);
@@ -109,6 +110,7 @@ const Profile = () => {
 
     return (
         <div>
+            <Link to='/daily'>Declaración diaria</Link>
             <div className="max-w-xl mx-auto">
                 <div className="grid grid-cols-3 mt-4 gap-4">
                     <select name="" id="" className="bg-gray-200 py-3 px-4 rounded" onChange={(e) => {changeUbigee(e, 'departaments')}}>
