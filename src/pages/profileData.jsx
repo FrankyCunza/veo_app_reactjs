@@ -24,11 +24,8 @@ const Profile = () => {
             params: param
         }).then(response => {
             setData(response.data.data)
-            // console.log(response.data.data)
             getProfile()
-            setTimeout(() => {
-                console.log(data)
-            }, 3000);
+            console.log(response.data.data)
         }, [])
     }, []);
 
@@ -90,13 +87,6 @@ const Profile = () => {
                                 <input type="date" name="" id="" defaultValue={profile[item.form_type]} className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
                             </div>
                         )
-                    } else if (item.form_type == "gender") {
-                        return (
-                            <div className="mt-2 text-left w-full" key={i}>
-                                <label htmlFor="" className="block mb-1">{item.title}</label>
-                                <input type="text" name="" id="" className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
-                            </div>
-                        )
                     } else if (item.form_type == "cell_phone") {
                         return (
                             <div className="mt-2 text-left w-full" key={i}>
@@ -108,7 +98,16 @@ const Profile = () => {
                         return (
                             <div className="mt-2 text-left w-full" key={i}>
                                 <label htmlFor="" className="block mb-1">{item.title}</label>
-                                <input type="text" name="" id="" defaultValue={profile[item.form_type]} className="h-10 rounded border border-blue-400 border-solid w-full pl-2" />
+                                <div className="flex">
+                                {item.loop.map((loop, i) => {
+                                    return (
+                                        <div key={i} className={`flex bg-gray-200 w-max justify-center items-center rounded px-4 py-2 ${i == 0 ? '' : 'ml-2'}`}>
+                                            <label className="mr-2">{loop}</label>
+                                            <input type="radio" name={item.name} id="" defaultValue={profile[item.form_type]} className="rounded border border-blue-400 border-solid" />
+                                        </div>
+                                    )
+                                })}
+                                </div>
                             </div>
                         )
                     } else if (item.form_type == "email") {
