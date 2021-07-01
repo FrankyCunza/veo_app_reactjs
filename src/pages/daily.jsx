@@ -40,15 +40,19 @@ const Daily = () => {
     }
     
     return (
-        <div>
-            <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto mt-8">
+        <div className="max-w-3xl mx-auto"> 
+            <div>
+                <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Declaración diaria</h1>
+            </div>
+            <div className="grid grid-cols-4 gap-4 mt-8">
                 {boxes.map(post => (
                     (post.type == "check" ? (
-                        <div key={post.code} className="py-6 border-2 rounded border-solid border-gray-300 flex items-center justify-center flex-col">
+                        <div key={post.code} className={`py-6 relative border-2 cursor-pointer rounded-md border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ''}`}>
                             <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-14 max-h-16" />
-                            <p className="leading-5 mt-3">{post.title}</p>
+                            <p className="leading-5 mt-3 font-medium text-base">{post.title}</p>
                             <input type="checkbox" 
                                 data-id = {post.code}
+                                className="absolute opacity-0 w-full h-full cursor-pointer"
                                 checked = {post.selected}
                                 onChange = {
                                     (e) => {updateData(e.target)}
