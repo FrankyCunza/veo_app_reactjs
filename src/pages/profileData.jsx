@@ -83,18 +83,20 @@ const Profile = () => {
     const changeUbigee = (e, name)  => {
         console.log(name)
         if (name == "departaments") {
-            const provinces = ubigee.provinces.filter(item => {
-                return item.departament == e.target.value
-            })
+            const provinces = ubigee.provinces.filter(item => 
+                item.departament === e.target.value
+            )
             setUbigee({
                 ["departaments"]: ubigee['departaments'],
                 ["provinces"]: provinces,
                 ["districts"]: ubigee['districts']
             })
         } else if (name =="provinces") {
-            const districts = ubigee.districts.filter(item => {
-                return item.value == e.target.value
-            })
+            const districts = ubigee.districts.filter(item => 
+                item.state === e.target.value
+            )
+            console.log(districts)
+            console.log(ubigee)
             setUbigee({
                 ["departaments"]: ubigee['departaments'],
                 ["provinces"]: ubigee['provinces'],
@@ -103,7 +105,7 @@ const Profile = () => {
         } else {
 
         }
-        console.log(ubigee)
+        // console.log(ubigee)
     }
 
     return (
