@@ -4,6 +4,8 @@ import axios from 'axios'
 const Profile = () => {
     const [data, setData] = useState([]);
     const [profile, setProfile] = useState([]);
+    const [risksChecks, setrisksChecks] = useState([]);
+
     useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -22,8 +24,11 @@ const Profile = () => {
             params: param
         }).then(response => {
             setData(response.data.data)
-            console.log(response.data.data)
+            // console.log(response.data.data)
             getProfile()
+            setTimeout(() => {
+                console.log(data)
+            }, 3000);
         }, [])
     }, []);
 
@@ -37,9 +42,21 @@ const Profile = () => {
                 id: localStorage.getItem('id')
             },
         }).then(response => {
-            // console.log(response)
+            let checked = []
+            for (const [key, value] of Object.entries(response.data.data.risks.risk_factors.condition)) {
+                if (value == true) {
+                    checked.push(key)
+                }
+            }
+            setrisksChecks(checked)
             setProfile(response.data.data.data)
         }, [])
+    }
+
+    const risks = (item) => {
+        if (risksChecks.includes(item.toString())) {
+            return true
+        }
     }
 
     return (
@@ -167,7 +184,7 @@ const Profile = () => {
                                     return (
                                         <div key={d}>
                                             <label htmlFor="">{loop.name}</label>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" checked={risks(loop.id)} />
                                         </div>
                                     )
                                 })}                                
