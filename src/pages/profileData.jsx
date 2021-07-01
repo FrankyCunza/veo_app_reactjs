@@ -6,6 +6,7 @@ const Profile = () => {
     const [profile, setProfile] = useState([]);
     const [risksChecks, setrisksChecks] = useState([]);
     const [ubigee, setUbigee] = useState([]);
+    const [selectUbigee, setSelectUbigee] = useState([]);
 
     useEffect(() => {
         const param = {
@@ -86,7 +87,7 @@ const Profile = () => {
             const provinces = ubigee.provinces.filter(item => 
                 item.departament === e.target.value
             )
-            setUbigee({
+            setSelectUbigee({
                 ["departaments"]: ubigee['departaments'],
                 ["provinces"]: provinces,
                 ["districts"]: ubigee['districts']
@@ -97,7 +98,7 @@ const Profile = () => {
             )
             console.log(districts)
             console.log(ubigee)
-            setUbigee({
+            setSelectUbigee({
                 ["departaments"]: ubigee['departaments'],
                 ["provinces"]: ubigee['provinces'],
                 ["districts"]: districts
@@ -120,14 +121,14 @@ const Profile = () => {
                             }) : ''}
                     </select>
                     <select name="" id="" className="bg-gray-200 py-3 px-4 rounded" onChange={(e) => {changeUbigee(e, 'provinces')}}>
-                        {ubigee.provinces ? ubigee.provinces.map((item, i) => {
+                        {selectUbigee.provinces ? selectUbigee.provinces.map((item, i) => {
                             return (
                                 <option value={item.value} key={item.id}>{item.value}</option>
                                 )
                             }) : ''}
                     </select>
                     <select name="" id="" className="bg-gray-200 py-3 px-4 rounded">
-                        {ubigee.districts ? ubigee.districts.map((item, i) => {
+                        {selectUbigee.districts ? selectUbigee.districts.map((item, i) => {
                             return (
                                 <option value={item.value} key={item.id}>{item.value}</option>
                                 )
