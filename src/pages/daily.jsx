@@ -9,6 +9,7 @@ const Daily = () => {
     const [range, setRange] = useState([]);
     const [value, setValue] = useState(0);
     const [submitting, setSubmitting] = useState(false)
+    const [trafficResult, setTrafficResult] = useState('')
     useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -59,7 +60,6 @@ const Daily = () => {
         } else if (value === range['min_hig_range'] || value <= range['max_hig_range']) {
             traffic = 'red'
         } else {}
-
         let local = {}
         for (const [key, value] of Object.entries(localStorage)) {
             local[key] = value
@@ -103,12 +103,13 @@ const Daily = () => {
         }).then(response => {
             console.log(response)
             setSubmitting(false)
+            setTrafficResult(traffic)
         }, [])
     }
     
     return (
         <div className="max-w-3xl mx-auto"> 
-            <Traffic name="light" />
+            {trafficResult ? <Traffic name={trafficResult} /> : ''}
             <div>
                 <Link to="/home" className="text-blue-500 text-left pt-4 flex">
                     <p>Atrás</p>
