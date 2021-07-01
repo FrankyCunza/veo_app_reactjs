@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
 
 
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
-    const [getData, setGetData] = useState([]);
-    const [sendData, setSendData] = useState([]);
     const [range, setRange] = useState([]);
     const [value, setValue] = useState(0);
     useEffect(() => {
@@ -72,14 +71,14 @@ const Daily = () => {
             },
             "status": true,
             "traffic": traffic,
+            "date": dateYYYYMMDD(),
+            "hour": HHMMSS(),
             "version": 4.00
         }
         for (const item of boxes) {
             data['form']['answers'].push({code: item.code, response: item.selected})
         }
-
         // setSendData({...local, ...data})
-
         console.log(data)
     }
     
