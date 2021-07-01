@@ -1,5 +1,7 @@
 import React, { useState, useEffect, setState } from 'react';
 import axios from 'axios'
+import { Link } from 'react-router-dom';
+
 
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
@@ -42,6 +44,9 @@ const Daily = () => {
     return (
         <div className="max-w-3xl mx-auto"> 
             <div>
+                <Link to="/home" className="text-blue-500 text-left pt-4 flex">
+                    <p>Atrás</p>
+                </Link>
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Declaración diaria</h1>
             </div>
             <div className="grid grid-cols-4 gap-4 mt-8">

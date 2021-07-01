@@ -19,7 +19,7 @@ const Home = () => {
         }, [])
     }, []);
     return (
-        <div className="bg-blue-500 h-screen w-screen">
+        <div className="bg-blue-500 h-full overflow-x-hidden w-full pb-14">
             <div className="flex justify-center py-10">
                 <img src="./assets/img/logo-veo365.png" alt="" />
             </div>
