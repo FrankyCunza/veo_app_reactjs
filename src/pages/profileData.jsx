@@ -27,7 +27,7 @@ const Profile = () => {
         }).then(response => {
             setData(response.data.data)
             getProfile()
-            // console.log(response.data.data)
+            console.log(response.data.data)
         }, [])
 
         getUbigee()
@@ -49,7 +49,6 @@ const Profile = () => {
             },
             params: param
         }).then(response => {
-            console.log(response)
             setUbigee(response.data.data)
         }, [])
     }
@@ -106,7 +105,6 @@ const Profile = () => {
         } else {
 
         }
-        // console.log(ubigee)
     }
 
     return (
@@ -251,7 +249,23 @@ const Profile = () => {
                                 </div>
                             </div>
                         )
-                    }  else if (item.type == "checkboxes") {
+                    } else if (item.type == "conditional") {
+                        return (
+                            <div key={i} className="mt-2 text-left w-full">
+                                <h2 className="text-lg font-semibold">{item.title}</h2>
+                                <div className="flex mt-2">
+                                    {item.loop.map((loop, i) => {
+                                        return (
+                                            <div key={i} className={`flex bg-gray-200 w-max justify-center items-center rounded px-4 py-2 ${i == 0 ? '' : 'ml-2'}`}>
+                                                <label className="mr-2">{loop}</label>
+                                                <input type="radio" name={item.name} id="" defaultValue={profile[item.type]} className="rounded border border-blue-400 border-solid" />
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        )
+                    } else if (item.type == "checkboxes") {
                         return (
                             <div className="mt-2 text-left w-full" key={i}>
                                 <h2 className="text-lg font-semibold">{item.title}</h2>
