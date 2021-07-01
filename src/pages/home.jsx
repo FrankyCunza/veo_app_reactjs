@@ -19,14 +19,19 @@ const Home = () => {
         }, [])
     }, []);
     return (
-        <div className="text-red-500">
-            {main.map((item, i) => {
-                return(
-                    <div>
-                        <Link to={`${item.routerLink}`}>{item.title}</Link>
-                    </div>
-                )
-            })}
+        <div className="bg-gray-200 h-screen w-screen">
+            <div className="max-w-5xl mx-auto">
+                <div className="grid grid-cols-3 gap-6">
+                    {main.map((item, i) => {
+                        return(
+                            <Link to={`${item.routerLink}`}  key={i} className="bg-white flex flex-col justify-center items-center rounded-md shadow cursor-pointer py-12">
+                                <img src={`./assets/svgs/${item.icon.split("../../assets/svgs/")[1]}`} alt="" className="w-14 max-h-16" />
+                                <p className="mt-4 text-gray-700 text-lg font-semibold">{item.title}</p>
+                            </Link>
+                        )
+                    })}
+                </div>
+            </div>
         </div>
     )
 }
