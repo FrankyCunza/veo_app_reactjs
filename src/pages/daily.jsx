@@ -81,7 +81,7 @@ const Daily = () => {
             data['form']['answers'].push({code: item.code, response: item.selected})
         }
         // setSendData({...local, ...data})
-        console.log(data)
+        // console.log(data)
 
         // Send Data
         const param = {
@@ -101,7 +101,6 @@ const Daily = () => {
             },
             data: JSON.stringify(data)
         }).then(response => {
-            console.log(response)
             setSubmitting(false)
             setTrafficResult(traffic)
         }, [])

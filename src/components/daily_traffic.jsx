@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const Traffic = ({name}) => {
     const [traffic, setTraffic] = useState(name);
+    const [data, setData] = useState([])
 
     useEffect(() => {
         if (traffic) {
-            console.log("Hello")
             const param = {
                 company_id: localStorage.getItem('company_id'),
                 end_point: localStorage.getItem('end_point'),
@@ -22,13 +22,36 @@ const Traffic = ({name}) => {
                 },
                 params: param
             }).then(response => {
-                console.log(response)
+                if (traffic == 'green') {
+                    setData(response.data.data[0]['traffic_green'])
+                } else if (traffic == 'yellow') {
+                    setData(response.data.data['traffic_yellow'])
+                } else {
+                    setData(response.data.data[0]['traffic_red'])
+                }
             }, [])
         }
     }, []);
 
     return (
-        <div>{name}</div>
+        <div>{data ? <div>
+            <h2>{data['title']}</h2>
+            <p>{data['description']}</p>
+            <div className="flex flex-col">
+                {data.recomendations ? data.recomendations.map((item, i) => {
+                    return (
+                        <div className="flex rounded flex-row bg-gray-100 pl-2 py-6 mt-6">
+                            <div className="w-32 flex min-w-max justify-center items-center">
+                                <img src={`./assets/svgs/${item.icon}.svg`} alt="" className="w-14 max-h-14" />
+                            </div>
+                            <div className="w-full">
+                                <p className="font-semibold leading-6 text-lg text-gray-600">{item.name}</p>
+                            </div>
+                        </div>
+                    )
+                }) : ''}
+            </div>
+        </div> : ''}</div>
     )
 }
 
