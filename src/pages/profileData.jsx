@@ -81,14 +81,28 @@ const Profile = () => {
     }
 
     const changeUbigee = (e, name)  => {
-        const provinces = ubigee.provinces.filter(item => {
-            return item.departament == e.target.value
-        })
-        setUbigee({
-            ["departaments"]: ubigee['departaments'],
-            ["provinces"]: provinces,
-            ["districts"]: ubigee['districts'],
-        })
+        console.log(name)
+        if (name == "departaments") {
+            const provinces = ubigee.provinces.filter(item => {
+                return item.departament == e.target.value
+            })
+            setUbigee({
+                ["departaments"]: ubigee['departaments'],
+                ["provinces"]: provinces,
+                ["districts"]: ubigee['districts']
+            })
+        } else if (name =="provinces") {
+            const districts = ubigee.districts.filter(item => {
+                return item.value == e.target.value
+            })
+            setUbigee({
+                ["departaments"]: ubigee['departaments'],
+                ["provinces"]: ubigee['provinces'],
+                ["districts"]: districts
+            })
+        } else {
+
+        }
         console.log(ubigee)
     }
 
@@ -96,14 +110,14 @@ const Profile = () => {
         <div>
             <div className="max-w-xl mx-auto">
                 <div className="grid grid-cols-3 mt-4 gap-4">
-                    <select name="" id="" className="bg-gray-200 py-3 px-4 rounded" onChange={(e) => {changeUbigee(e, 'departament')}}>
+                    <select name="" id="" className="bg-gray-200 py-3 px-4 rounded" onChange={(e) => {changeUbigee(e, 'departaments')}}>
                         {ubigee.departaments ? ubigee.departaments.map((item, i) => {
                             return (
                                 <option value={item.value} key={item.id}>{item.value}</option>
                                 )
                             }) : ''}
                     </select>
-                    <select name="" id="" className="bg-gray-200 py-3 px-4 rounded">
+                    <select name="" id="" className="bg-gray-200 py-3 px-4 rounded" onChange={(e) => {changeUbigee(e, 'provinces')}}>
                         {ubigee.provinces ? ubigee.provinces.map((item, i) => {
                             return (
                                 <option value={item.value} key={item.id}>{item.value}</option>
