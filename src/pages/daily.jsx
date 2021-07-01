@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Link } from 'react-router-dom';
 import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
-
+import Traffic from '../components/daily_traffic';
 
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
@@ -108,6 +108,7 @@ const Daily = () => {
     
     return (
         <div className="max-w-3xl mx-auto"> 
+            <Traffic name="light" />
             <div>
                 <Link to="/home" className="text-blue-500 text-left pt-4 flex">
                     <p>Atrás</p>
