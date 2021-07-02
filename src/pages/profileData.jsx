@@ -82,7 +82,6 @@ const Profile = () => {
     }
 
     const changeUbigee = (e, name)  => {
-        console.log(name)
         if (name == "departaments") {
             const provinces = ubigee.provinces.filter(item => 
                 item.departament === e.target.value
@@ -110,10 +109,10 @@ const Profile = () => {
 
     return (
         <div>
-            <Link to='/daily'>Declaración diaria</Link>
             <div className="max-w-xl mx-auto">
                 <div className="grid grid-cols-3 mt-4 gap-4">
                     <select name="" id="" className="bg-gray-200 py-3 px-4 rounded" onChange={(e) => {changeUbigee(e, 'departaments')}}>
+                        <option value="">Seleccionar</option>
                         {ubigee.departaments ? ubigee.departaments.map((item, i) => {
                             return (
                                 <option value={item.value} key={item.id}>{item.value}</option>
@@ -121,6 +120,7 @@ const Profile = () => {
                             }) : ''}
                     </select>
                     <select name="" id="" className="bg-gray-200 py-3 px-4 rounded" onChange={(e) => {changeUbigee(e, 'provinces')}}>
+                        <option value="">Seleccionar</option>
                         {selectUbigee.provinces ? selectUbigee.provinces.map((item, i) => {
                             return (
                                 <option value={item.value} key={item.id}>{item.value}</option>
@@ -128,6 +128,7 @@ const Profile = () => {
                             }) : ''}
                     </select>
                     <select name="" id="" className="bg-gray-200 py-3 px-4 rounded">
+                        <option value="">Seleccionar</option>
                         {selectUbigee.districts ? selectUbigee.districts.map((item, i) => {
                             return (
                                 <option value={item.value} key={item.id}>{item.value}</option>
