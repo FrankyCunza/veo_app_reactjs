@@ -35,8 +35,14 @@ const Traffic = ({name}) => {
 
     return (
         <div>{data ? <div>
-            <h2>{data['title']}</h2>
-            <p>{data['description']}</p>
+            <div className="text-center py-6">
+                <div className="text-center w-full">
+                    <img src={`./assets/svgs/${data.icon}.svg`}  className="mx-auto w-28" alt="" />
+                </div>
+                <h2 className="text-6xl font-bold mt-3 text-gray-800">{data['title']}</h2>
+            </div>
+            <p className="mb-4 text-xl font-medium px-36 text-center">{data['description']}</p>
+            <h2 className="text-3xl font-bold text-gray-800 mt-8">Recomendaciones:</h2>
             <div className="flex flex-col">
                 {data.recomendations ? data.recomendations.map((item, i) => {
                     return (
@@ -45,7 +51,7 @@ const Traffic = ({name}) => {
                                 <img src={`./assets/svgs/${item.icon}.svg`} alt="" className="w-14 max-h-14" />
                             </div>
                             <div className="w-full">
-                                <p className="font-semibold leading-6 text-lg text-gray-600">{item.name}</p>
+                                <p className="font-semibold leading-6 text-lg text-gray-800">{item.name}</p>
                             </div>
                         </div>
                     )
