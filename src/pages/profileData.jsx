@@ -28,7 +28,6 @@ const Profile = () => {
         }).then(response => {
             setData(response.data.data)
             getProfile()
-            console.log(response.data.data)
         }, [])
 
         getUbigee()
