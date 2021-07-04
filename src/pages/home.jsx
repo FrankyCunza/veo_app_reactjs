@@ -27,7 +27,7 @@ const Home = () => {
                 <div className="grid grid-cols-3 gap-6">
                     {main.map((item, i) => {
                         return(
-                            <Link to={`${item.routerLink}`}  key={i} className="bg-white flex flex-col justify-center items-center rounded-md shadow cursor-pointer py-12">
+                            <Link to={`${item.routerLink}`}  key={i} className="bg-white flex flex-col justify-center items-center rounded-md shadow cursor-pointer py-16">
                                 <img src={`./assets/svgs/${item.icon.split("../../assets/svgs/")[1]}`} alt="" className="w-14 max-h-16" />
                                 <p className="mt-4 text-gray-700 text-lg font-semibold">{item.title}</p>
                             </Link>

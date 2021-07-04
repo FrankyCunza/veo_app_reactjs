@@ -126,7 +126,7 @@ const Daily = () => {
                 <div className="grid grid-cols-4 gap-4 mt-8">
                     {boxes.map(post => (
                         (post.type == "check" ? (
-                            <div key={post.code} className={`py-6 relative border-2 cursor-pointer rounded-md border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
+                            <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
                                 <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
                                 <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
                                 <input type="checkbox" 
@@ -143,8 +143,8 @@ const Daily = () => {
                     ))}
                 </div>
             </div>
-            <div className="w-full flex justify-center mt-4">
-               <button type="button" className="rounded bg-blue-500 py-2 px-6 text-white" onClick={send}>Enviar</button>
+            <div className="w-full flex justify-center mt-6">
+               <button type="button" className="rounded-lg bg-blue-500 py-4 px-8 text-white shadow-md font-semibold text-xl" onClick={send}>Enviar</button>
             </div>
         </div>
     )

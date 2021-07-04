@@ -4,7 +4,7 @@ import Login from './pages/login'
 import Daily from './pages/daily'
 import Profile from './pages/profileData'
 import Home from './pages/home';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 function App() {
   return (
@@ -15,6 +15,17 @@ function App() {
         <li><Link to="/home">Home</Link></li>
       </ul>
       <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => {
+              return (
+                false ?
+                <Redirect to="/login" /> :
+                <Redirect to="/login" /> 
+              )
+          }}
+        />
         <Route path="/home" >
           <Home />
         </Route>
