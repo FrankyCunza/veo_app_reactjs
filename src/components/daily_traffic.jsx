@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Traffic = ({name}) => {
     const [traffic, setTraffic] = useState(name);
@@ -33,7 +34,8 @@ const Traffic = ({name}) => {
     }, [name]);
 
     return (
-        <div>{data ? <div>
+        <div>
+            {data ? <div>
             <div className="text-center py-6">
                 <div className="text-center w-full">
                     <img src={`./assets/svgs/${data.icon}.svg`}  className="mx-auto w-28" alt="" />
@@ -56,7 +58,11 @@ const Traffic = ({name}) => {
                     )
                 }) : ''}
             </div>
-        </div> : ''}</div>
+        </div> : ''}
+        <div className="w-full flex justify-center mt-6">
+            <Link to="/home"className="rounded-lg bg-blue-500 py-4 px-8 text-white shadow-md font-semibold text-xl">Regresar</Link>
+        </div>
+        </div>
     )
 }
 
