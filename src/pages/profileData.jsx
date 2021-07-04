@@ -65,7 +65,7 @@ const Profile = () => {
         }).then(response => {
             let checked = []
             for (const [key, value] of Object.entries(response.data.data.risks.risk_factors.condition)) {
-                if (value == true) {
+                if (value === true) {
                     checked.push(key)
                 }
             }
@@ -85,16 +85,16 @@ const Profile = () => {
     }
 
     const changeUbigee = (e, name)  => {
-        if (name == "departaments") {
+        if (name === "departaments") {
             const provinces = ubigee.provinces.filter(item => 
-                item.departament === e.target.value
+                item.departament == e.target.value
             )
             setSelectUbigee({
                 ["departaments"]: ubigee['departaments'],
                 ["provinces"]: provinces,
                 ["districts"]: ubigee['districts']
             })
-        } else if (name =="provinces") {
+        } else if (name === "provinces") {
             const districts = ubigee.districts.filter(item => 
                 item.state === e.target.value
             )
@@ -159,35 +159,35 @@ const Profile = () => {
                                     </div>
                                 </div>
                             )
-                        } else if (item.form_type == "full_name" || item.form_type == "paternal_surname" || item.form_type == "maternal_surname") {
+                        } else if (item.form_type === "full_name" || item.form_type === "paternal_surname" || item.form_type === "maternal_surname") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="text" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.form_type == "birth_day") {
+                        } else if (item.form_type === "birth_day") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="date" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.form_type == "cell_phone") {
+                        } else if (item.form_type === "cell_phone") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="number" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.form_type == "gender") {
+                        } else if (item.form_type === "gender") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <div className="flex">
                                     {item.loop.map((loop, i) => {
                                         return (
-                                            <div key={i} className={`flex bg-gray-200 w-max justify-center items-center rounded px-4 py-2 ${i == 0 ? '' : 'ml-2'}`}>
+                                            <div key={i} className={`flex bg-gray-200 w-max justify-center items-center rounded px-4 py-2 ${i === 0 ? '' : 'ml-2'}`}>
                                                 <label className="mr-2">{loop}</label>
                                                 <input type="radio" name={item.name} id="" defaultValue={profile[item.form_type]} className="rounded border border-blue-400 border-solid" />
                                             </div>
@@ -196,55 +196,55 @@ const Profile = () => {
                                     </div>
                                 </div>
                             )
-                        } else if (item.form_type == "email") {
+                        } else if (item.form_type === "email") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="email" name="" id="" className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.form_type == "address") {
+                        } else if (item.form_type === "address") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="address" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.type == "title") {
+                        } else if (item.type === "title") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <h2 className="text-lg font-semibold">{item.title}</h2>
                                 </div>
                             )
-                        } else if (item.form_type == "work_job") {
+                        } else if (item.form_type === "work_job") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="address" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.form_type == "work_address") {
+                        } else if (item.form_type === "work_address") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="address" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.form_type == "work_area") {
+                        } else if (item.form_type === "work_area") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="address" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.form_type == "work_name") {
+                        } else if (item.form_type === "work_name") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <label htmlFor="" className="block mb-1">{item.title}</label>
                                     <input type="address" name="" id="" defaultValue={profile[item.form_type]} className="h-12 rounded border border-blue-400 border-solid w-full pl-2" />
                                 </div>
                             )
-                        } else if (item.type == "pesoTalla") {
+                        } else if (item.type === "pesoTalla") {
                             return (
                                 <div key={i}>
                                     <div className="mt-2 text-left w-full">
@@ -261,14 +261,14 @@ const Profile = () => {
                                     </div>
                                 </div>
                             )
-                        } else if (item.type == "conditional") {
+                        } else if (item.type === "conditional") {
                             return (
                                 <div key={i} className="mt-2 text-left w-full">
                                     <h2 className="text-lg font-semibold">{item.title}</h2>
                                     <div className="flex mt-2">
                                         {item.loop.map((loop, i) => {
                                             return (
-                                                <div key={i} className={`flex bg-gray-200 w-max justify-center items-center rounded px-4 py-2 ${i == 0 ? '' : 'ml-2'}`}>
+                                                <div key={i} className={`flex bg-gray-200 w-max justify-center items-center rounded px-4 py-2 ${i === 0 ? '' : 'ml-2'}`}>
                                                     <label className="mr-2">{loop}</label>
                                                     <input type="radio" name={item.name} id="" defaultValue={profile[item.type]} className="rounded border border-blue-400 border-solid" />
                                                 </div>
@@ -277,43 +277,43 @@ const Profile = () => {
                                     </div>
                                 </div>
                             )
-                        } else if (item.type == "emergency_contact") {
+                        } else if (item.type === "emergency_contact") {
                             return (
                                 <div key={i} className="mt-2 text-left w-full">
                                     <h2 className="text-lg font-semibold">{item.title}</h2>
                                     <div className="">
                                         {item.data.map((loop, s) => {
-                                            if (loop.type == "name_contact") {
+                                            if (loop.type === "name_contact") {
                                                 return (
-                                                    <div className="w-full block">
+                                                    <div className="w-full block" key={s}>
                                                         <label className="mb-1 block w-full">{loop.title}</label>
                                                         <input type="text" name={loop.name} id="" className="h-12 rounded border border-blue-400 border-solid w-full" />
                                                     </div>
                                                 )
-                                            } else if (loop.type == "telephone_contact") {
+                                            } else if (loop.type === "telephone_contact") {
                                                 return (
-                                                    <div className="w-full block mt-2">
+                                                    <div className="w-full block mt-2" key={s}>
                                                         <label className="mb-1 block w-full">{loop.title}</label>
                                                         <input type="text" name={loop.name} id="" className="h-12 rounded border border-blue-400 border-solid w-full" />
                                                     </div>
                                                 )
-                                            } else if (loop.type == "cellphone_contact") {
+                                            } else if (loop.type === "cellphone_contact") {
                                                 return (
-                                                    <div className="w-full block mt-2">
+                                                    <div className="w-full block mt-2" key={s}>
                                                         <label className="mb-1 block w-full">{loop.title}</label>
                                                         <input type="text" name={loop.name} id="" className="h-12 rounded border border-blue-400 border-solid w-full" />
                                                     </div>
                                                 )
-                                            } else if (loop.type == "email") {
+                                            } else if (loop.type === "email") {
                                                 return (
-                                                    <div className="w-full block mt-2">
+                                                    <div className="w-full block mt-2" key={s}>
                                                         <label className="mb-1 block w-full">{loop.title}</label>
                                                         <input type="text" name={loop.name} id="" className="h-12 rounded border border-blue-400 border-solid w-full" />
                                                     </div>
                                                 )
-                                            } else if (loop.type == "select") {
+                                            } else if (loop.type === "select") {
                                                 return (
-                                                    <div className="w-full block mt-2">
+                                                    <div className="w-full block mt-2" key={s}>
                                                         <label className="mb-1 block w-full">{loop.title}</label>
                                                         <select name="" id="" className="w-full h-12 rounded border border-solid border-blue-400">
                                                             <option value="">Seleccionar</option>
@@ -332,7 +332,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                             )
-                        } else if (item.type == "checkboxes") {
+                        } else if (item.type === "checkboxes") {
                             return (
                                 <div className="mt-2 text-left w-full" key={i}>
                                     <h2 className="text-lg font-semibold">{item.title}</h2>
