@@ -4,7 +4,7 @@ import axios from 'axios';
 const Traffic = ({name}) => {
     const [traffic, setTraffic] = useState(name);
     const [data, setData] = useState([])
-
+    console.log(name)
     useEffect(() => {
         if (traffic) {
             const param = {
@@ -22,16 +22,16 @@ const Traffic = ({name}) => {
                 },
                 params: param
             }).then(response => {
-                if (traffic == 'green') {
+                if (name == 'green') {
                     setData(response.data.data[0]['traffic_green'])
-                } else if (traffic == 'yellow') {
+                } else if (name == 'yellow') {
                     setData(response.data.data['traffic_yellow'])
                 } else {
                     setData(response.data.data[0]['traffic_red'])
                 }
             }, [])
         }
-    }, []);
+    }, [name]);
 
     return (
         <div>{data ? <div>
@@ -46,7 +46,7 @@ const Traffic = ({name}) => {
             <div className="flex flex-col">
                 {data.recomendations ? data.recomendations.map((item, i) => {
                     return (
-                        <div className="flex rounded flex-row bg-gray-100 pl-2 py-6 mt-6">
+                        <div className="flex rounded flex-row bg-gray-100 pl-2 py-6 mt-6" key={i}>
                             <div className="w-32 flex min-w-max justify-center items-center">
                                 <img src={`./assets/svgs/${item.icon}.svg`} alt="" className="w-14 max-h-14" />
                             </div>

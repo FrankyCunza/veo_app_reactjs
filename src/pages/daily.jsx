@@ -81,7 +81,6 @@ const Daily = () => {
             data['form']['answers'].push({code: item.code, response: item.selected})
         }
         // setSendData({...local, ...data})
-        // console.log(data)
 
         // Send Data
         const param = {
@@ -123,7 +122,7 @@ const Daily = () => {
                         </div>
                     </div>
                 }
-                <div className="grid grid-cols-4 gap-4 mt-8">
+                <div className="grid grid-cols-4 gap-4 mt-6">
                     {boxes.map(post => (
                         (post.type == "check" ? (
                             <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
