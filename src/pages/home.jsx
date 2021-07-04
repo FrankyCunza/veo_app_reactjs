@@ -30,7 +30,7 @@ const Home = () => {
                             <Link to={`${item.routerLink}`}  key={i} className="bg-white hover:shadow-2xl flex flex-col justify-center items-center rounded-md shadow cursor-pointer pt-16 pb-8">
                                 <img src={`./assets/svgs/${item.icon.split("../../assets/svgs/")[1]}`} alt="" className="w-14 max-h-16" />
                                 <p className="mt-4 text-gray-700 text-lg font-semibold">{item.title}</p>
-                                <i class="fas fa-long-arrow-alt-right text-3xl text-gray-300 mt-3"></i>
+                                <i className="fas fa-long-arrow-alt-right text-3xl text-gray-300 mt-3"></i>
                             </Link>
                         )
                     })}
