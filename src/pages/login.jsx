@@ -47,7 +47,7 @@ const Login = () => {
             for (const [key, value] of Object.entries(data.data)) {
                 localStorage.setItem(key, value)
             }
-            history.push("/daily")
+            history.push("/home")
             // return <Redirect to='/daily'  />
         })
 
