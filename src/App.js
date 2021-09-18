@@ -5,8 +5,7 @@ import Daily from './pages/daily'
 import Profile from './pages/profileData'
 import Home from './pages/home';
 import Protocols from './pages/protocols';
-import pageStep from './pages/pageStep';
-
+import PageStep from './pages/pageStep';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 
@@ -46,7 +45,7 @@ function App() {
           <Protocols />
         </Route>
         <Route path="/pageStep">
-          <pageStep />
+          <PageStep />
         </Route>
       </Switch>
     </BrowserRouter>
