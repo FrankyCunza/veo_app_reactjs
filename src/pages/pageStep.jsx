@@ -7,6 +7,10 @@ const PageStep = () => {
     const location = useLocation();
     const [data, setData] = useState(location.state.data)
     const [steps, setSteps] = useState(location.state.data.steps)
+
+    const nextSlide = (index) => {
+        document.getElementById("slides").style.transform = `translateX(-${index}00%)`
+    }
     return (
         <div className="max-w-3xl mx-auto">
             <div>
@@ -16,7 +20,7 @@ const PageStep = () => {
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Steps</h1>
             </div>
             <div className="w-full overflow-x-hidden mt-10">
-                <div className="flex w-full">
+                <div className="flex w-full transition duration-500 ease-in-out" id="slides">
                     {steps.map((el, index) => {
                         return (
                             <div className="bg-white rounded shadow-sm p-12 flex-shrink-0 w-full flex flex-col items-center justify-center" key={'step'+index}>
@@ -25,6 +29,10 @@ const PageStep = () => {
                                 <div className="mt-6">
                                     <button type="button" className="bg-blue-600 text-white px-8 py-2 rounded-full">YES</button>
                                     <button type="button" className="bg-blue-600 text-white px-8 py-2 rounded-full ml-4">NO</button>
+                                </div>
+                                <div>
+                                    <button className="bg-gray-300 px-12 py-3 rounded-full mt-4 text-gray-700" onClick={() => nextSlide(index-1)}>Back</button>
+                                    <button className="bg-blue-700 px-12 py-3 rounded-full mt-4 text-white ml-3" onClick={() => nextSlide(index+1)}>Next</button>
                                 </div>
                             </div>
                         )
