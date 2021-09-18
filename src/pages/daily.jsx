@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom';
 import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
 import Traffic from '../components/daily_traffic';
+import Skeleton from '../components/skeleton';
 
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
@@ -10,6 +11,7 @@ const Daily = () => {
     const [value, setValue] = useState(0);
     const [submitting, setSubmitting] = useState(false)
     const [trafficResult, setTrafficResult] = useState('')
+    const [isLoading, setLoading] = useState(true)
     useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -29,6 +31,7 @@ const Daily = () => {
         }).then(response => {
             setBoxes(response.data.data)
             setRange(response.data.range)
+            setLoading(false)
             // for (const item of response.data.data) {
             //     setGetData((s) => [...s, {"code": item.code, "response": item.selected}])
             // }
@@ -124,24 +127,35 @@ const Daily = () => {
                 }
                 {!trafficResult ? 
                     <>
-                    <div className="grid grid-cols-4 gap-4 mt-6">
-                        {boxes.map(post => (
-                            (post.type == "check" ? (
-                                <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
-                                    <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
-                                    <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
-                                    <input type="checkbox" 
-                                        data-id = {post.code}
-                                        value = {post.value}
-                                        className="absolute opacity-0 w-full h-full cursor-pointer"
-                                        checked = {post.selected}
-                                        onChange = {
-                                            (e) => {updateData(e.target)}
-                                        }
-                                />
-                                </div>
-                            ) : (''))
-                        ))}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                        {isLoading ? <>
+                            <Skeleton />
+                            <Skeleton />
+                            <Skeleton />
+                            <Skeleton />
+                            <Skeleton />
+                            <Skeleton />
+                            <Skeleton />
+                            </> : 
+                            boxes.map(post => (
+                                (post.type == "check" ? (
+                                    <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
+                                        <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
+                                        <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
+                                        <input type="checkbox" 
+                                            data-id = {post.code}
+                                            value = {post.value}
+                                            className="absolute opacity-0 w-full h-full cursor-pointer"
+                                            checked = {post.selected}
+                                            onChange = {
+                                                (e) => {updateData(e.target)}
+                                            }
+                                    />
+                                    </div>
+                                ) : (''))
+                            ))
+                        }
+                        
                     </div>
                     <div className="w-full flex justify-center mt-6">
                         <button type="button" className="rounded-lg bg-blue-500 py-4 px-8 text-white shadow-md font-semibold text-xl" onClick={send}>Enviar</button>
