@@ -4,6 +4,7 @@ import Login from './pages/login'
 import Daily from './pages/daily'
 import Profile from './pages/profileData'
 import Home from './pages/home';
+import Protocols from './pages/protocols';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 function App() {
@@ -37,6 +38,9 @@ function App() {
         </Route>
         <Route path="/profile">
           <Profile />
+        </Route>
+        <Route path="/protocols">
+          <Protocols />
         </Route>
       </Switch>
     </BrowserRouter>
