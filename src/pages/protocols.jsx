@@ -37,8 +37,9 @@ const Protocols = () => {
 
             {data.map((ele,i)=>{
                 return (
-                    <div className="" key={i} onClick={() => gotoStep(ele)}>
-                        {ele.name}
+                    <div className="w-full bg-white rounded-xl p-6 shadow hover:shadow-xl mt-4 flex cursor-pointer" key={i} onClick={() => gotoStep(ele)}>
+                        <div className="w-20 h-20 bg-gray-200 rounded-full"></div>
+                        <h2 className="pt-4 pl-4 text-xl">{ele.name}</h2>
                     </div>
                 );
             })}
