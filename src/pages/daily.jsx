@@ -128,15 +128,8 @@ const Daily = () => {
                 {!trafficResult ? 
                     <>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                        {isLoading ? <>
-                            <Skeleton />
-                            <Skeleton />
-                            <Skeleton />
-                            <Skeleton />
-                            <Skeleton />
-                            <Skeleton />
-                            <Skeleton />
-                            </> : 
+                        {isLoading ? 
+                            <Skeleton quantity={16} /> : 
                             boxes.map(post => (
                                 (post.type == "check" ? (
                                     <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>

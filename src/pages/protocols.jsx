@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
 import  { Redirect, useHistory } from 'react-router-dom'
+import Skeleton from '../components/skeleton';
 
 const Protocols = () => {
     let history = useHistory()
     const [data, setData] = useState([]);
+    const [isLoading, setLoading] = useState(true)
 
     const gotoStep = (item) => {
         history.push("/pageStep", {data: item})
@@ -22,7 +24,7 @@ const Protocols = () => {
             },
         }).then(response => {
             setData(response.data.data)
-            
+            setLoading(false)
         }, [])
     }, []);
 
@@ -34,15 +36,17 @@ const Protocols = () => {
                 </Link>
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Protocolos</h1>
             </div>
-
-            {data.map((ele,i)=>{
-                return (
-                    <div className="w-full bg-white rounded-xl p-6 shadow hover:shadow-xl mt-4 flex cursor-pointer" key={i} onClick={() => gotoStep(ele)}>
-                        <div className="w-20 h-20 bg-gray-200 rounded-full"></div>
-                        <h2 className="pt-4 pl-4 text-xl">{ele.name}</h2>
-                    </div>
-                );
-            })}
+            {isLoading ? <Skeleton quantity={4} /> : 
+                data.map((ele,i)=>{
+                    return (
+                        <div className="w-full bg-white rounded-xl p-6 shadow hover:shadow-xl mt-4 flex cursor-pointer" key={i} onClick={() => gotoStep(ele)}>
+                            <div className="w-20 h-20 bg-gray-200 rounded-full"></div>
+                            <h2 className="pt-4 pl-4 text-xl">{ele.name}</h2>
+                        </div>
+                    );
+                })
+            }
+            
 
         </div>
     )
