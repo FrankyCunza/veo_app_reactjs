@@ -14,6 +14,11 @@ const Protocols = () => {
     };
 
     useEffect(() => {
+        const param = {
+            company_id: localStorage.getItem('company_id'),
+            end_point: localStorage.getItem('end_point'),
+            page: "protocols"
+        };
         axios({
             method: 'get',
             url: 'https://gateway.vim365.com/cardslides/slides',
@@ -22,6 +27,7 @@ const Protocols = () => {
                 Authorization: localStorage.getItem('token'),
                 id: localStorage.getItem('id')
             },
+            params: param
         }).then(response => {
             setData(response.data.data)
             setLoading(false)

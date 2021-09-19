@@ -99,14 +99,16 @@ const Daily = () => {
             data: JSON.stringify(data)
         })
         .then((response) => {
+            console.log(response.data)
+            console.log(traffic)
             if (response.data.error) {
-                setSubmitting(false)
                 setMessageAlert({title: response.data.error, message: response.data.error, route: '/home', state: 'error'})
-            } else {
                 setSubmitting(false)
+                setShowAlert(true)
+            } else {
                 setTrafficResult(traffic)
+                setSubmitting(false)
             }
-            setShowAlert(true)
         }).catch(function (error) {
             setSubmitting(false)
             setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})

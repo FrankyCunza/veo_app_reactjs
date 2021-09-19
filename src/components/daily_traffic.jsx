@@ -25,7 +25,7 @@ const Traffic = ({name}) => {
                 if (name == 'green') {
                     setData(response.data.data[0]['traffic_green'])
                 } else if (name == 'yellow') {
-                    setData(response.data.data['traffic_yellow'])
+                    setData(response.data.data[0]['traffic_yellow'])
                 } else {
                     setData(response.data.data[0]['traffic_red'])
                 }

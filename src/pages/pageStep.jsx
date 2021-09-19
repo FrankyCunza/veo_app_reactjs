@@ -79,7 +79,7 @@ const PageStep = () => {
                     "code": data.id,
                     "traffic": traffic,
                     "is_protocol": true,
-                    "version": 4.00,
+                    "version": "2.97",
                     "answers": answers
                 },
                 "date": dateYYYYMMDD(),
