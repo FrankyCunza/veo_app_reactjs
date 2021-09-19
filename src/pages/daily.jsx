@@ -5,6 +5,9 @@ import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
 import Traffic from '../components/daily_traffic';
 import Skeleton from '../components/skeleton';
 import { useForm } from "react-hook-form";
+import Loader from '../components/loader';
+import { Alert } from '../components/alert';
+
 
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
@@ -13,6 +16,8 @@ const Daily = () => {
     const [submitting, setSubmitting] = useState(false)
     const [trafficResult, setTrafficResult] = useState('')
     const [isLoading, setLoading] = useState(true)
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
+    const [showAlert, setShowAlert] = useState(false)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
@@ -92,10 +97,20 @@ const Daily = () => {
                 id: localStorage.getItem('id')
             },
             data: JSON.stringify(data)
-        }).then(response => {
+        })
+        .then((response) => {
+            if (response.data.error) {
+                setSubmitting(false)
+                setMessageAlert({title: response.data.error, message: response.data.error, route: '/home', state: 'error'})
+            } else {
+                setSubmitting(false)
+                setTrafficResult(traffic)
+            }
+            setShowAlert(true)
+        }).catch(function (error) {
             setSubmitting(false)
-            setTrafficResult(traffic)
-        }, [])
+            setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+        })
     }
 
     const updateData = (data, type) =>{
@@ -124,14 +139,9 @@ const Daily = () => {
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Declaración diaria</h1>
             </div>
             {trafficResult ? <Traffic name={trafficResult} /> : ''}
+            {showAlert && <Alert props={messageAlert} />}
             <div className="relative">
-                {submitting && 
-                    <div className="absolute w-full h-full bg-white bg-opacity-95 top-0 left-0 z-10 flex justify-center items-center">
-                        <div className="text-gray-700 text-3xl font-semibold">
-                            Cargando...
-                        </div>
-                    </div>
-                }
+                {submitting && <Loader />}
                 {!trafficResult ? 
                     <>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">

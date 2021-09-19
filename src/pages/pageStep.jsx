@@ -4,7 +4,7 @@ import  { Redirect, useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
-import { AlertError, AlertSuccess, AlertWarning } from '../components/alert';
+import { AlertError, AlertSuccess, Alert } from '../components/alert';
 import Loader from '../components/loader';
 const PageStep = () => {
     const location = useLocation();
@@ -99,20 +99,27 @@ const PageStep = () => {
                 })
                 .then((response) => response.json())
                 .then((json) => {
+                    if (json.error) {
+                        setMessageAlert({title: json.error, message: json.error, route: '/protocols', state: 'error'})
+                    } else {
+                        setMessageAlert({title: json.error, message: json.error, route: '/protocols', state: 'success'})
+                    }
                     setLoading(false)
-                    setMessageAlert({title: json.error, message: json.error, route: '/protocols', state: 'error'})
                     setShowAlert(true)
                 })
                 .catch((error) => {
-                    alert('Error Save Form1', error)
-            });
+                    // alert('Error Save Form1', error)
+                    setMessageAlert({title: 'Error', message: 'Try again later', route: '/protocols', state: 'error'})
+                    setLoading(false)
+                    setShowAlert(true)
+                });
         } catch(e) {
             alert('Error Save Form', e)
         }
     }
     return (
         <div className="max-w-3xl mx-auto">
-            {showAlert && <AlertWarning props={messageAlert} />}
+            {showAlert && <Alert props={messageAlert} />}
             <div>
                 <Link to="/protocols" className="text-blue-500 text-left pt-4 flex">
                     <p>Atrás</p>
