@@ -4,11 +4,16 @@ import  { Redirect, useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
+import { AlertError, AlertSuccess, AlertWarning } from '../components/alert';
+import Loader from '../components/loader';
 const PageStep = () => {
     const location = useLocation();
     const [data, setData] = useState(location.state.data)
     const [steps, setSteps] = useState([])
     const [activeIndex, setActiveIndex] = useState(1)
+    const [isLoading, setLoading] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
 
     const nextSlide = (index) => {
         document.getElementById("slides").style.transform = `translateX(-${index}00%)`
@@ -29,6 +34,7 @@ const PageStep = () => {
     }
 
     const handleSubmit = async () => {
+        setLoading(true)
         try {
             let object = {}
             Object.entries(localStorage).map(item => {
@@ -93,6 +99,9 @@ const PageStep = () => {
                 })
                 .then((response) => response.json())
                 .then((json) => {
+                    setLoading(false)
+                    setMessageAlert({title: json.error, message: json.error, route: '/protocols', state: 'error'})
+                    setShowAlert(true)
                 })
                 .catch((error) => {
                     alert('Error Save Form1', error)
@@ -103,13 +112,15 @@ const PageStep = () => {
     }
     return (
         <div className="max-w-3xl mx-auto">
+            {showAlert && <AlertWarning props={messageAlert} />}
             <div>
-                <Link to="/home" className="text-blue-500 text-left pt-4 flex">
+                <Link to="/protocols" className="text-blue-500 text-left pt-4 flex">
                     <p>Atrás</p>
                 </Link>
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Steps</h1>
             </div>
             <div className="w-full overflow-hidden rounded-xl mt-10 shadow-lg relative">
+                {isLoading && <Loader />}
                 <div className="absolute top-6 right-8 font-medium z-10 text-2xl text-gray-700">
                     {activeIndex}
                     &nbsp;/&nbsp;
@@ -124,17 +135,20 @@ const PageStep = () => {
                     {steps.map((el, index) => {
                         return (
                             <div className="bg-white px-12 py-24 flex-shrink-0 w-full flex flex-col items-center justify-center" key={'step'+index}>
-                                <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center"></div>
+                                <div className="w-36 h-36 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <img src={`./assets/svgs/${el.icon.split("protocols/")[1]}`} alt="" className="w-15 max-h-16" />
+                                </div>
                                 <h3 className="mt-4 text-2xl px-20 text-center">{el.instructions}</h3>
                                 <div className={`mt-6`}>
-                                    <button type="button" className={`bg-blue-600 text-white px-8 py-2 rounded-full ${el.status ? '' : 'opacity-20'}`} 
-                                    onClick={() => { changeStep(index, true)}}>YES</button>
-                                    <button type="button" className={`bg-blue-600 text-white px-8 py-2 rounded-full ml-4 ${el.status==false ? '' : 'opacity-20'}`} 
-                                    onClick={() => {changeStep(index, false)}}>NO</button>
+                                    <button type="button" className={`border-2 border-solid border-blue-600 text-white pl-5 pr-12 py-3 rounded-full text-xl ${el.status ? 'bg-blue-600' : 'bg-white text-blue-600'}`} 
+                                    onClick={() => { changeStep(index, true)}}><i className={`mr-6 ${el.status ? 'fas fa-circle' : 'far fa-circle'}`}></i>YES</button>
+                                    <button type="button" className={`bg-white border-2 border-solid border-blue-600 text-white pl-5 pr-12 py-3 rounded-full ml-4 text-xl ${el.status==false ? 'bg-blue-600' : 'bg-white text-blue-600'}`} 
+                                    onClick={() => {changeStep(index, false)}}><i className={`mr-6 ${el.status==false ? 'fas fa-circle' : 'far fa-circle'}`}></i>NO</button>
                                 </div>
-                                <div>
-                                    {index == steps.length-1 ? <button className="bg-gray-300 px-12 py-3 rounded-full mt-4 text-gray-700" onClick={handleSubmit}>Send</button> : <>
-                                    <button className={`bg-blue-700 px-12 py-3 rounded-full mt-4 text-white ml-3 ${steps[index].status !== null ? '' : 'opacity-20'}`} onClick={() => {nextSlide(index+1); setActiveIndex(activeIndex+1) }}>Next</button>
+                                <div className="mt-6">
+                                    {index == steps.length-1 ? <button className="bg-gray-300 text-xl px-12 py-4 rounded-full text-gray-700" onClick={handleSubmit}>Send</button> : <>
+                                    <button className={`bg-green-600 text-xl px-12 py-4 rounded-full text-white ml-3 ${steps[index].status !== null ? '' : 'opacity-20'}`} 
+                                    onClick={() => {nextSlide(index+1); setActiveIndex(activeIndex+1) }}>Next<i className="ml-3 fas fa-chevron-right"></i></button>
                                     </>}
                                     
                                 </div>
@@ -143,7 +157,6 @@ const PageStep = () => {
                     })}
                 </div>
             </div>
-            {console.log(location.state.data)}
         </div>
     );
 };

@@ -45,8 +45,6 @@ const Daily = () => {
     
 
     const send = () => {
-        console.log(boxes)
-        return false
         setSubmitting(true)
         let traffic = ''
         if (value === range['min_low_range'] || value <= range['max_low_range']) {
@@ -77,7 +75,6 @@ const Daily = () => {
             data['form']['answers'].push({code: item.code, response: item.selected})
         }
         // setSendData({...local, ...data})
-
         // Send Data
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -142,7 +139,7 @@ const Daily = () => {
                             <Skeleton quantity={16} /> : 
                             boxes.map(post => {
                                 if (post.type == 'check')
-                                    return <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
+                                    return <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
                                                 <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
                                                 <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
                                                 <input type="checkbox" 
@@ -156,7 +153,7 @@ const Daily = () => {
                                                 />
                                             </div>
                                 else if (post.type == 'question')
-                                    return <div key={post.code} className={`bg-white col-span-2 md:col-span-4 py-6 px-8 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex flex-col`}>
+                                    return <div key={post.code} className={`bg-white col-span-2 md:col-span-4 py-6 px-8 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex flex-col`}>
                                                 <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
                                                 <p className="leading-snug px-2 mt-3 font-medium text-lg text-left">{post.text}</p>
                                                 <div className="mt-4 flex">
