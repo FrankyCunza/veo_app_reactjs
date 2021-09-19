@@ -7,7 +7,7 @@ import Home from './pages/home';
 import Protocols from './pages/protocols';
 import PageStep from './pages/pageStep';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
-
+import Informed from './pages/informed';
 
 function App() {
   return (
@@ -46,6 +46,9 @@ function App() {
         </Route>
         <Route path="/pageStep">
           <PageStep />
+        </Route>
+        <Route path="/getinformed">
+          <Informed />
         </Route>
       </Switch>
     </BrowserRouter>
