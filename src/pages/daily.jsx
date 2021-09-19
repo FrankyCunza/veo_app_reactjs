@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
 import Traffic from '../components/daily_traffic';
 import Skeleton from '../components/skeleton';
+import { useForm } from "react-hook-form";
 
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
@@ -12,6 +13,9 @@ const Daily = () => {
     const [submitting, setSubmitting] = useState(false)
     const [trafficResult, setTrafficResult] = useState('')
     const [isLoading, setLoading] = useState(true)
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const onSubmit = data => console.log(data);
     useEffect(() => {
         const param = {
             company_id: localStorage.getItem('company_id'),
@@ -38,22 +42,11 @@ const Daily = () => {
         }, [])
     }, []);
 
-    const updateData = (data) =>{
-        if (data.checked == true) {
-            setValue(value+parseInt(data.value))
-        } else {
-            setValue(value-parseInt(data.value))
-        }
-        const NewArray = boxes.map(item => {
-            if (item.code == data.getAttribute("data-id")){
-                item.selected = data.checked
-            }
-            return item
-        })
-        setBoxes(NewArray)
-    }
+    
 
     const send = () => {
+        console.log(boxes)
+        return false
         setSubmitting(true)
         let traffic = ''
         if (value === range['min_low_range'] || value <= range['max_low_range']) {
@@ -107,6 +100,23 @@ const Daily = () => {
             setTrafficResult(traffic)
         }, [])
     }
+
+    const updateData = (data, type) =>{
+        console.log(data)
+        // return false
+        if (data.checked == true) {
+            setValue(value+parseInt(data.value))
+        } else {
+            setValue(value-parseInt(data.value))
+        }
+        const NewArray = boxes.map(item => {
+            if (item.code == data.code){
+                item.selected = data.checked
+            }
+            return item
+        })
+        setBoxes(NewArray)
+    }
     
     return (
         <div className="max-w-3xl mx-auto"> 
@@ -130,23 +140,34 @@ const Daily = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                         {isLoading ? 
                             <Skeleton quantity={16} /> : 
-                            boxes.map(post => (
-                                (post.type == "check" ? (
-                                    <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
-                                        <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
-                                        <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
-                                        <input type="checkbox" 
-                                            data-id = {post.code}
-                                            value = {post.value}
-                                            className="absolute opacity-0 w-full h-full cursor-pointer"
-                                            checked = {post.selected}
-                                            onChange = {
-                                                (e) => {updateData(e.target)}
-                                            }
-                                    />
-                                    </div>
-                                ) : (''))
-                            ))
+                            boxes.map(post => {
+                                if (post.type == 'check')
+                                    return <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
+                                                <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
+                                                <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
+                                                <input type="checkbox" 
+                                                    data-id = {post.code}
+                                                    value = {post.value}
+                                                    className="absolute opacity-0 w-full h-full cursor-pointer"
+                                                    checked = {post.selected}
+                                                    onChange = {
+                                                        (e) => {updateData({value: post.value, checked: e.target.checked, code: post.code}, post.type)}
+                                                    }
+                                                />
+                                            </div>
+                                else if (post.type == 'question')
+                                    return <div key={post.code} className={`bg-white col-span-2 md:col-span-4 py-6 px-8 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-100 flex flex-col`}>
+                                                <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
+                                                <p className="leading-snug px-2 mt-3 font-medium text-lg text-left">{post.text}</p>
+                                                <div className="mt-4 flex">
+                                                    <button type="button" className={`px-12 py-3 bg-blue-600 text-white rounded-full w-max ${post.selected==false ? '' :'opacity-20'}`} 
+                                                    onClick={() => {updateData({value: post.value, checked: false, code: post.code}, post.type)}}>No</button>
+
+                                                    <button type="button" className={`px-12 py-3 bg-blue-600 text-white rounded-full w-max ml-2 ${post.selected ? '' :'opacity-20'}`}
+                                                    onClick={() => {updateData({value: post.value, checked: true, code: post.code}, post.type)}}>Si</button>
+                                                </div>
+                                            </div>
+                            })
                         }
                         
                     </div>
