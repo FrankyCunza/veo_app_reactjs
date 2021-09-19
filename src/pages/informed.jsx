@@ -13,7 +13,7 @@ const Informed = () => {
     }, [])
 
     const gotoNotice = (item) => {
-        history.push("/informedArticles", {data: item})
+        history.push("/informedEntries", {data: item})
     };
 
     const getData = async () => {
