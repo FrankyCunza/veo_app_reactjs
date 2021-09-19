@@ -3,6 +3,7 @@ import axios from 'axios'
 import  { Redirect, useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { HHMMSS, dateYYYYMMDD } from './../utils/utils'
 const PageStep = () => {
     const location = useLocation();
     const [data, setData] = useState(location.state.data)
@@ -25,6 +26,80 @@ const PageStep = () => {
         let newArray = [...steps]
         newArray[index]['status'] = status
         setSteps(newArray)
+    }
+
+    const handleSubmit = async () => {
+        try {
+            let object = {}
+            Object.entries(localStorage).map(item => {
+                if (item[0] == 'area_id' 
+                    || item[0] == 'branch_id' 
+                    || item[0] == 'company_id' 
+                    || item[0] == 'document' 
+                    || item[0] == 'end_point' 
+                    || item[0] == 'full_name' 
+                    || item[0] == 'job_id' 
+                    || item[0] == 'worker_id' 
+                ) {
+                    object[`${item[0]}`] = item[1]
+                }
+            })
+    
+            // Traffic
+            const total = steps.reduce((t, {value, status}) => {
+                if (status) {
+                  return t + parseFloat(value)
+              } else {
+                  return t
+              }
+            }, 0)
+            let traffic = ''
+            let green = steps.length / 3
+            let yellow = green * 2
+            if (total < green) {
+                traffic = 'green'
+            } else if (total < yellow) {
+                traffic = 'yellow'
+            } else {
+                traffic = 'red'
+            }
+            
+            let answers = []
+            steps.map(el => answers.push({code: el.id, response: el.status ? el.status : false}))
+            // Collect Data
+            let dataSend = {
+                ...object,
+                "form": {
+                    "code": data.id,
+                    "traffic": traffic,
+                    "is_protocol": true,
+                    "version": 4.00,
+                    "answers": answers
+                },
+                "date": dateYYYYMMDD(),
+                "hour": HHMMSS(),
+            }
+            const token = localStorage.getItem('token')
+            const id = localStorage.getItem('id')
+            fetch('https://gateway.vim365.com/saveform/saveform', {
+                method: 'POST',
+                body: JSON.stringify(dataSend),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'security-header': 'Vim365Aputek/2020.04',
+                    Authorization: token,
+                    id: id
+                }
+                })
+                .then((response) => response.json())
+                .then((json) => {
+                })
+                .catch((error) => {
+                    alert('Error Save Form1', error)
+            });
+        } catch(e) {
+            alert('Error Save Form', e)
+        }
     }
     return (
         <div className="max-w-3xl mx-auto">
@@ -58,7 +133,7 @@ const PageStep = () => {
                                     onClick={() => {changeStep(index, false)}}>NO</button>
                                 </div>
                                 <div>
-                                    {index == steps.length-1 ? <button className="bg-gray-300 px-12 py-3 rounded-full mt-4 text-gray-700">Send</button> : <>
+                                    {index == steps.length-1 ? <button className="bg-gray-300 px-12 py-3 rounded-full mt-4 text-gray-700" onClick={handleSubmit}>Send</button> : <>
                                     <button className={`bg-blue-700 px-12 py-3 rounded-full mt-4 text-white ml-3 ${steps[index].status !== null ? '' : 'opacity-20'}`} onClick={() => {nextSlide(index+1); setActiveIndex(activeIndex+1) }}>Next</button>
                                     </>}
                                     
