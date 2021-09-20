@@ -10,6 +10,8 @@ import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 import Informed from './pages/informed';
 import InformedEntries from './pages/informedEntries';
 import InformedArticle from './pages/informedArticle';
+import AuxiliaryControls from './pages/auxiliaryControls';
+import AuxiliaryControlsForm from './pages/auxiliaryControlsForm';
 function App() {
   return (
     <BrowserRouter>
@@ -56,6 +58,12 @@ function App() {
         </Route>
         <Route path="/informedArticle">
           <InformedArticle />
+        </Route>
+        <Route path="/auxiliaryControls">
+          <AuxiliaryControls />
+        </Route>
+        <Route path="/auxiliaryControlsForm">
+          <AuxiliaryControlsForm />
         </Route>
       </Switch>
     </BrowserRouter>
