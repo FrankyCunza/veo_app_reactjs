@@ -26,7 +26,7 @@ const AuxiliaryControlsForm = () => {
             } else if (data.form[i].type == 'field_checkboxes') {
                 let collectData = {}
                 data.form[i].data.forEach((el, s) => {
-                    collectData[el.title] = ''
+                    collectData[el.title] = el.value
                 })
                 setValue(data.form[i].title, collectData)
             }
@@ -75,6 +75,23 @@ const AuxiliaryControlsForm = () => {
                                             )
                                         })}
                                     </select>
+                                </div>
+                            )
+                        } else if (el.type == "field_checkboxes") {
+                            return (
+                                <div className="w-full">
+                                    <p>{el.title}</p>
+                                    <div className="grid grid-cols-3 gap-4 mt-6">
+                                        {el.data.map((item, index) => {
+                                            return (
+                                                <div className={`border-2 border-solid border-gray-400 relative p-12 rounded-xl ${watch(`${el.title}.${item.title}`, 'value')==true ? 'bg-blue-500' : 'bg-white'}`}>
+                                                    <input type="checkbox"  checked={watch(`${el.title}`) ? watch(`${el.title}.${item.title}`) : false} 
+                                                    onChange={(e) => {setValue(`${el.title}.${item.title}`, e.target.checked)}} className="absolute opacity-0 top-0 left-0 w-full h-full" />
+                                                    <p>{item.title}</p>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                             )
                         }
