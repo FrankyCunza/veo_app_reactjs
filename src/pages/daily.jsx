@@ -79,7 +79,6 @@ const Daily = () => {
         for (const item of boxes) {
             data['form']['answers'].push({code: item.code, response: item.selected})
         }
-        // setSendData({...local, ...data})
         // Send Data
         const param = {
             company_id: localStorage.getItem('company_id'),

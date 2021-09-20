@@ -17,8 +17,10 @@ const Home = () => {
                 Authorization: localStorage.getItem('token'),
                 id: localStorage.getItem('id')
             },
+            params: {
+                end_point: localStorage.getItem("end_point")
+            }
         }).then(response => {
-            console.log(response.data.data)
             setMain(response.data.data )
             setLoading(false)
         }, [])

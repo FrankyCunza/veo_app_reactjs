@@ -22,6 +22,10 @@ const AuxiliaryControls = () => {
                         "title": "Información adicional"
                     },
                     {
+                        "type": "sub_title",
+                        "title": "Bloque 1"
+                    },
+                    {
                         "type": "field_text",
                         "title": "Nombre"
                     },
