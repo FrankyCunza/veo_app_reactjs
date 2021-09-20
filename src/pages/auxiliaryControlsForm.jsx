@@ -120,9 +120,10 @@ const AuxiliaryControlsForm = () => {
                                                             <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ml-2 ${watch(`${el.title}.${item.title}`)==true ? '' : 'opacity-20'}`}
                                                             onClick={() => {setValue(`${el.title}.${item.title}`, true)}}>SI</button>
                                                         </div>
-                                                        <div className="flex justify-center">
+                                                        {index < el.data.length-1 && <div className="flex justify-center">
                                                             <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full ${watch(`${el.title}.${item.title}`)==null ? 'opacity-20' : ''}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
-                                                        </div>
+                                                        </div>}
+                                                        
                                                     </div>
                                                 )
                                             })}
