@@ -115,13 +115,13 @@ const AuxiliaryControlsForm = () => {
                                                             <p>{item.description}</p>
                                                         </div>
                                                         <div className="mt-6 flex justify-center">
-                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ${watch(`${el.title}.${item.title}`, 'value')==false ? '' : 'opacity-20'}`}
+                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ${watch(`${el.title}.${item.title}`)==false ? '' : 'opacity-20'}`}
                                                             onClick={() => {setValue(`${el.title}.${item.title}`, false)}}>NO</button>
-                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ml-2 ${watch(`${el.title}.${item.title}`, 'value')==true ? '' : 'opacity-20'}`}
+                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ml-2 ${watch(`${el.title}.${item.title}`)==true ? '' : 'opacity-20'}`}
                                                             onClick={() => {setValue(`${el.title}.${item.title}`, true)}}>SI</button>
                                                         </div>
                                                         <div className="flex justify-center">
-                                                            <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
+                                                            <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full ${watch(`${el.title}.${item.title}`)==null ? 'opacity-20' : ''}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
                                                         </div>
                                                     </div>
                                                 )
