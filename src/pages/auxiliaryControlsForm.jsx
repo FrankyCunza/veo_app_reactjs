@@ -25,7 +25,7 @@ const AuxiliaryControlsForm = () => {
                 setValue(data.form[i].title, '')
             } else if (data.form[i].type == 'field_checkboxes') {
                 let collectData = {}
-                data.form[i].data.forEach((el, i) => {
+                data.form[i].data.forEach((el, s) => {
                     collectData[el.title] = ''
                 })
                 setValue(data.form[i].title, collectData)
@@ -44,6 +44,42 @@ const AuxiliaryControlsForm = () => {
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">{data.title}</h1>
             </div>
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
+                {
+                    data.form.map((el, i) => {
+                        if (el.type == "field_text") {
+                            return (
+                                <div className="w-full">
+                                    <p>{el.title}</p>
+                                    <input type="text" name="" id="" {...register(el.title)}
+                                    className='w-full px-4 py-3 rounded focus:outline-none focus:ring-2 from-blue-600' />
+                                </div>
+                            )
+                        } else if (el.type == "field_date") {
+                            return (
+                                <div className="w-full">
+                                    <p>{el.title}</p>
+                                    <input type="date" name="" id="" {...register(el.title)}
+                                    className='w-full px-4 py-3 rounded focus:outline-none focus:ring-2 from-blue-600' />
+                                </div>
+                            )
+                        } else if (el.type == "field_select") {
+                            return (
+                                <div className="w-full">
+                                    <p>{el.title}</p>
+                                    <select name="" id="" {...register(el.title)}
+                                    className='w-full px-4 py-3 rounded focus:outline-none focus:ring-2 from-blue-600'>
+                                        <option value="">Seleccionar</option>
+                                        {el.data.map((item, index) => {
+                                            return (
+                                                <option value={item.label} >{item.label}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                            )
+                        }
+                    })
+                }
                 <button type="submit">Enviar</button>
             </form>
         </div>
