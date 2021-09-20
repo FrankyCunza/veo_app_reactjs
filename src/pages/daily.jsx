@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import Loader from '../components/loader';
 import { Alert } from '../components/alert';
 
-
 const Daily = () => {
     const [boxes, setBoxes] = useState([]);
     const [range, setRange] = useState([]);
@@ -38,16 +37,16 @@ const Daily = () => {
             },
             params: param
         }).then(response => {
-            setBoxes(response.data.data)
+            console.log(response.data.data)
+            let newArray = []
+            for (let item of response.data.data) {
+                newArray.push({...item, selected: null})
+            }
+            setBoxes(newArray)
             setRange(response.data.range)
             setLoading(false)
-            // for (const item of response.data.data) {
-            //     setGetData((s) => [...s, {"code": item.code, "response": item.selected}])
-            // }
         }, [])
     }, []);
-
-    
 
     const send = () => {
         setSubmitting(true)
@@ -85,7 +84,6 @@ const Daily = () => {
             end_point: localStorage.getItem('end_point'),
             page: 'daily-test'
         };
-
         axios({
             method: 'post',
             url: 'https://gateway.vim365.com/saveform/saveform',
@@ -115,8 +113,6 @@ const Daily = () => {
     }
 
     const updateData = (data, type) =>{
-        console.log(data)
-        // return false
         if (data.checked == true) {
             setValue(value+parseInt(data.value))
         } else {
@@ -149,13 +145,13 @@ const Daily = () => {
                         {isLoading ? 
                             <Skeleton quantity={16} /> : 
                             boxes.map(post => {
-                                if (post.type == 'check')
+                                if (post.type == 'field_checkboxes')
                                     return <div key={post.code} className={`bg-gray-50 py-12 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
-                                                <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
+                                                {post.selected && <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
                                                     <i className="fas fa-check"></i>
-                                                </div>
+                                                </div>}
                                                 <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
-                                                <p className="leading-5 px-2 mt-4 font-medium text-xl text-center">{post.title}</p>
+                                                <p className="leading-5 px-2 mt-4 font-medium text-lg text-center">{post.text}</p>
                                                 <input type="checkbox" 
                                                     data-id = {post.code}
                                                     value = {post.value}
@@ -166,16 +162,16 @@ const Daily = () => {
                                                     }
                                                 />
                                             </div>
-                                else if (post.type == 'question')
-                                    return <div key={post.code} className={`bg-white col-span-2 md:col-span-3 py-6 px-8 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex flex-col`}>
+                                else if (post.type == 'field_radio')
+                                    return <div key={post.code} className={`bg-gray-50 col-span-2 md:col-span-3 py-9 px-8 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex flex-col`}>
                                                 <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
-                                                <p className="leading-6 text-gray-700 px-2 mt-3 font-medium text-xl text-left">{post.text}</p>
-                                                <div className="mt-4 flex">
-                                                    <button type="button" className={`px-12 py-3 bg-blue-600 text-white rounded-full w-max ${post.selected==false ? '' :'opacity-20'}`} 
-                                                    onClick={() => {updateData({value: post.value, checked: false, code: post.code}, post.type)}}>No</button>
+                                                <p className="leading-5 text-gray-700 px-2 mt-3 font-medium text-lg text-left">{post.text}</p>
+                                                <div className="mt-5 flex">
+                                                    <button type="button" className={`py-3 pl-5 pr-12 border border-solid border-blue-600 rounded-full w-max ${post.selected==false ? 'bg-blue-600 text-white' :'bg-white'}`} 
+                                                    onClick={() => {updateData({value: post.value, checked: false, code: post.code}, post.type)}}><i className={`fas fa-check opacity-0 mr-4 ${post.selected==false && 'opacity-100'}`}></i>No</button>
 
-                                                    <button type="button" className={`px-12 py-3 bg-blue-600 text-white rounded-full w-max ml-2 ${post.selected ? '' :'opacity-20'}`}
-                                                    onClick={() => {updateData({value: post.value, checked: true, code: post.code}, post.type)}}>Si</button>
+                                                    <button type="button" className={`py-3 pl-5 pr-12 border border-solid border-blue-600 rounded-full w-max ml-2 ${post.selected ? 'bg-blue-600 text-white' :'bg-white'}`}
+                                                    onClick={() => {updateData({value: post.value, checked: true, code: post.code}, post.type)}}><i className={`fas fa-check opacity-0 mr-4 ${post.selected==true && 'opacity-100'}`}></i>Si</button>
                                                 </div>
                                             </div>
                             })
