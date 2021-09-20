@@ -35,7 +35,7 @@ const Protocols = () => {
     }, []);
 
     return (
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto bg-white px-12 rounded-xl shadow-xl my-6 py-6">
             <div>
                 <Link to="/home" className="text-blue-500 text-left pt-4 flex">
                     <p>Atrás</p>
@@ -45,7 +45,7 @@ const Protocols = () => {
             {isLoading ? <Skeleton quantity={4} /> : 
                 data.map((ele,i)=>{
                     return (
-                        <div className="w-full bg-white rounded-xl p-6 shadow hover:shadow-xl mt-4 flex cursor-pointer relative" key={i} onClick={() => gotoStep(ele)}>
+                        <div className="w-full bg-white border border-solid border-gray-300 rounded-xl p-6 shadow hover:shadow-xl mt-4 flex cursor-pointer relative" key={i} onClick={() => gotoStep(ele)}>
                             <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
                                 <img src={`./assets/svgs/${ele.icon.split("protocols/")[1]}`} alt="" className="w-15 max-h-16" />
                             </div>

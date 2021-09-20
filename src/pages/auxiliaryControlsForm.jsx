@@ -86,7 +86,7 @@ const AuxiliaryControlsForm = () => {
                                     <div className="grid grid-cols-4 gap-4 mt-2">
                                         {el.data.map((item, index) => {
                                             return (
-                                                <div className={`border-2 border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.title}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
+                                                <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.title}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
                                                     <input type="checkbox" checked={watch(`${el.title}`) ? watch(`${el.title}.${item.title}`) : false} 
                                                     onChange={(e) => {setValue(`${el.title}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
                                                     <p className="text-lg tracking-wide font-medium">{item.title}</p>
@@ -104,26 +104,29 @@ const AuxiliaryControlsForm = () => {
                             return (
                                 <div className="w-full">
                                     <p className="font-medium text-lg">{el.title}</p>
-                                    <div className="bg-white shadow-sm overflow-hidden rounded-xl border-2 border-solid border-blue-600 mt-6">
+                                    <div className="bg-white shadow-xl overflow-hidden rounded-2xl border-2 border-solid border-blue-600 mt-2">
                                         <div className="flex transition duration-500 ease-in-out" id={el.title}>
                                             {el.data.map((item, index) => {
                                                 return (
-                                                    <div className="w-full flex-shrink-0 p-12 relative flex items-center justify-center">
-                                                        {index>0 && <div className="w-12 h-12 rounded-full absolute top-5 left-5 bg-gray-200 flex items-center justify-center"
+                                                    <div className="w-full flex-shrink-0 px-12 py-16 relative flex items-center justify-center">
+                                                        {index>0 && <div className="w-12 h-12 cursor-pointer rounded-full absolute top-5 left-5 bg-gray-200 flex items-center justify-center"
                                                         onClick={() => {animateSlide(el.title, index-1)}}>
                                                             <i className="fas fa-chevron-left"></i>
                                                         </div>}
                                                         <div className="flex items-center justify-center flex-col">
-                                                            <h2>{item.title}</h2>
-                                                            <p>{item.description}</p>
+                                                            <div className="w-28 h-28 mb-6 rounded-full flex items-center justify-center bg-gray-100">
+                                                                <img src={'./assets/svgs/logout-icon.svg'} alt="" className="w-14 max-h-16" />
+                                                            </div>
+                                                            <h2 className="text-2xl font-medium">{item.title}</h2>
+                                                            <p className="text-lg mt-4">{item.description}</p>
                                                             <div className="mt-6 flex justify-center">
-                                                                <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ${watch(`${el.title}.${item.title}`)==false ? '' : 'opacity-20'}`}
-                                                                onClick={() => {setValue(`${el.title}.${item.title}`, false)}}>NO</button>
-                                                                <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ml-2 ${watch(`${el.title}.${item.title}`)==true ? '' : 'opacity-20'}`}
-                                                                onClick={() => {setValue(`${el.title}.${item.title}`, true)}}>SI</button>
+                                                                <button type="button" className={`tracking-wide font-medium border border-solid rounded-full py-3 pl-5 pr-12 border-blue-600 ${watch(`${el.title}.${item.title}`)==false ? 'bg-blue-600 text-white' : 'border-white'}`}
+                                                                onClick={() => {setValue(`${el.title}.${item.title}`, false)}}><i className={`fas fa-check opacity-0 mr-4 ${watch(`${el.title}.${item.title}`)==false && 'opacity-100'}`}></i>NO</button>
+                                                                <button type="button" className={`tracking-wide font-medium border border-solid rounded-full py-3 pl-5 pr-12 border-blue-600 ml-2 ${watch(`${el.title}.${item.title}`)==true ? 'bg-blue-600 text-white' : 'border-white'}`}
+                                                                onClick={() => {setValue(`${el.title}.${item.title}`, true)}}><i className={`fas fa-check opacity-0 mr-4 ${watch(`${el.title}.${item.title}`)==true && 'opacity-100'}`}></i>SI</button>
                                                             </div>
                                                             {index < el.data.length-1 && <div className="flex justify-center">
-                                                                <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full ${watch(`${el.title}.${item.title}`)==null ? 'opacity-20' : ''}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
+                                                                <button className={`mt-6 py-3 px-12 text-white rounded-full ${watch(`${el.title}.${item.title}`)==null ? 'bg-gray-500' : 'bg-green-500'}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
                                                             </div>}
                                                         </div>
                                                     </div>
@@ -136,7 +139,7 @@ const AuxiliaryControlsForm = () => {
                         }
                     })
                 }
-                <button type="submit">Enviar</button>
+                <button type="submit" className="w-full bg-blue-600 text-white py-5 tracking-wider text-xl rounded-full mt-4">Enviar</button>
             </form>
         </div>
     )

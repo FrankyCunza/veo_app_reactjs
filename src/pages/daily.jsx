@@ -132,12 +132,12 @@ const Daily = () => {
     }
     
     return (
-        <div className="max-w-3xl mx-auto"> 
+        <div className="max-w-3xl mx-auto bg-white px-12 rounded-xl shadow-xl my-6 py-6"> 
             <div>
                 <Link to="/home" className="text-blue-500 text-left pt-4 flex">
-                    <p>Atrás</p>
+                    <p><i className="fas fa-chevron-left mr-2"></i>Atrás</p>
                 </Link>
-                <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Declaración diaria</h1>
+                <h1 className="text-4xl font-bold text-left pt-4 text-gray-800">Declaración diaria</h1>
             </div>
             {trafficResult ? <Traffic name={trafficResult} /> : ''}
             {showAlert && <Alert props={messageAlert} />}
@@ -145,14 +145,17 @@ const Daily = () => {
                 {submitting && <Loader />}
                 {!trafficResult ? 
                     <>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
                         {isLoading ? 
                             <Skeleton quantity={16} /> : 
                             boxes.map(post => {
                                 if (post.type == 'check')
-                                    return <div key={post.code} className={`bg-white py-6 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
+                                    return <div key={post.code} className={`bg-gray-50 py-12 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex items-center justify-center flex-col ${post.selected ? 'bg-blue-600 text-white' : ' text-gray-700'}`}>
+                                                <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
+                                                    <i className="fas fa-check"></i>
+                                                </div>
                                                 <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
-                                                <p className="leading-5 px-2 mt-3 font-medium text-lg text-center">{post.title}</p>
+                                                <p className="leading-5 px-2 mt-4 font-medium text-xl text-center">{post.title}</p>
                                                 <input type="checkbox" 
                                                     data-id = {post.code}
                                                     value = {post.value}
@@ -164,9 +167,9 @@ const Daily = () => {
                                                 />
                                             </div>
                                 else if (post.type == 'question')
-                                    return <div key={post.code} className={`bg-white col-span-2 md:col-span-4 py-6 px-8 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex flex-col`}>
+                                    return <div key={post.code} className={`bg-white col-span-2 md:col-span-3 py-6 px-8 relative hover:shadow-lg border-2 cursor-pointer rounded-2xl border-solid border-gray-200 flex flex-col`}>
                                                 <img src={`./assets/svgs/${post.image}.svg`} alt="" className="w-15 max-h-16" />
-                                                <p className="leading-snug px-2 mt-3 font-medium text-lg text-left">{post.text}</p>
+                                                <p className="leading-6 text-gray-700 px-2 mt-3 font-medium text-xl text-left">{post.text}</p>
                                                 <div className="mt-4 flex">
                                                     <button type="button" className={`px-12 py-3 bg-blue-600 text-white rounded-full w-max ${post.selected==false ? '' :'opacity-20'}`} 
                                                     onClick={() => {updateData({value: post.value, checked: false, code: post.code}, post.type)}}>No</button>
