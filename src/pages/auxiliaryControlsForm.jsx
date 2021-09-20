@@ -38,7 +38,7 @@ const AuxiliaryControlsForm = () => {
     }
 
     return (
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto bg-white px-12 rounded-xl shadow-xl my-6 py-6">
             <div>
                 <a onClick={() => history.goBack()} className="text-blue-500 text-left pt-4 flex cursor-pointer">
                     <p>Atrás</p>
@@ -51,25 +51,25 @@ const AuxiliaryControlsForm = () => {
                         if (el.type == "field_text") {
                             return (
                                 <div className="w-full">
-                                    <p>{el.title}</p>
+                                    <p className="font-medium text-lg">{el.title}</p>
                                     <input type="text" name="" id="" {...register(el.title)}
-                                    className='w-full px-4 py-3 rounded focus:outline-none focus:ring-2 from-blue-600' />
+                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
                                 </div>
                             )
                         } else if (el.type == "field_date") {
                             return (
                                 <div className="w-full">
-                                    <p>{el.title}</p>
+                                    <p className="font-medium text-lg">{el.title}</p>
                                     <input type="date" name="" id="" {...register(el.title)}
-                                    className='w-full px-4 py-3 rounded focus:outline-none focus:ring-2 from-blue-600' />
+                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
                                 </div>
                             )
                         } else if (el.type == "field_select") {
                             return (
                                 <div className="w-full">
-                                    <p>{el.title}</p>
+                                    <p className="font-medium text-lg">{el.title}</p>
                                     <select name="" id="" {...register(el.title)}
-                                    className='w-full px-4 py-3 rounded focus:outline-none focus:ring-2 from-blue-600'>
+                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50'>
                                         <option value="">Seleccionar</option>
                                         {el.data.map((item, index) => {
                                             return (
@@ -82,14 +82,18 @@ const AuxiliaryControlsForm = () => {
                         } else if (el.type == "field_checkboxes") {
                             return (
                                 <div className="w-full">
-                                    <p>{el.title}</p>
-                                    <div className="grid grid-cols-3 gap-4 mt-6">
+                                    <p className="font-medium text-lg">{el.title}</p>
+                                    <div className="grid grid-cols-4 gap-4 mt-2">
                                         {el.data.map((item, index) => {
                                             return (
-                                                <div className={`border-2 border-solid border-gray-400 relative p-12 rounded-xl ${watch(`${el.title}.${item.title}`, 'value')==true ? 'bg-blue-500' : 'bg-white'}`}>
-                                                    <input type="checkbox"  checked={watch(`${el.title}`) ? watch(`${el.title}.${item.title}`) : false} 
-                                                    onChange={(e) => {setValue(`${el.title}.${item.title}`, e.target.checked)}} className="absolute opacity-0 top-0 left-0 w-full h-full" />
-                                                    <p>{item.title}</p>
+                                                <div className={`border-2 border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.title}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
+                                                    <input type="checkbox" checked={watch(`${el.title}`) ? watch(`${el.title}.${item.title}`) : false} 
+                                                    onChange={(e) => {setValue(`${el.title}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
+                                                    <p className="text-lg tracking-wide font-medium">{item.title}</p>
+                                                    {watch(`${el.title}.${item.title}`)==true && <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
+                                                        <i className="fas fa-check"></i>
+                                                    </div>}
+                                                    
                                                 </div>
                                             )
                                         })}
@@ -99,31 +103,29 @@ const AuxiliaryControlsForm = () => {
                         } else if (el.type == "carousel") {
                             return (
                                 <div className="w-full">
-                                    <p>{el.title}</p>
+                                    <p className="font-medium text-lg">{el.title}</p>
                                     <div className="bg-white shadow-sm overflow-hidden rounded-xl border-2 border-solid border-blue-600 mt-6">
                                         <div className="flex transition duration-500 ease-in-out" id={el.title}>
                                             {el.data.map((item, index) => {
                                                 return (
-                                                    <div className="w-full flex-shrink-0 p-12 relative">
+                                                    <div className="w-full flex-shrink-0 p-12 relative flex items-center justify-center">
                                                         {index>0 && <div className="w-12 h-12 rounded-full absolute top-5 left-5 bg-gray-200 flex items-center justify-center"
                                                         onClick={() => {animateSlide(el.title, index-1)}}>
                                                             <i className="fas fa-chevron-left"></i>
                                                         </div>}
-                                                        
-                                                        <div className="flex justify-center flex-col items-center">
+                                                        <div className="flex items-center justify-center flex-col">
                                                             <h2>{item.title}</h2>
                                                             <p>{item.description}</p>
+                                                            <div className="mt-6 flex justify-center">
+                                                                <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ${watch(`${el.title}.${item.title}`)==false ? '' : 'opacity-20'}`}
+                                                                onClick={() => {setValue(`${el.title}.${item.title}`, false)}}>NO</button>
+                                                                <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ml-2 ${watch(`${el.title}.${item.title}`)==true ? '' : 'opacity-20'}`}
+                                                                onClick={() => {setValue(`${el.title}.${item.title}`, true)}}>SI</button>
+                                                            </div>
+                                                            {index < el.data.length-1 && <div className="flex justify-center">
+                                                                <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full ${watch(`${el.title}.${item.title}`)==null ? 'opacity-20' : ''}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
+                                                            </div>}
                                                         </div>
-                                                        <div className="mt-6 flex justify-center">
-                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ${watch(`${el.title}.${item.title}`)==false ? '' : 'opacity-20'}`}
-                                                            onClick={() => {setValue(`${el.title}.${item.title}`, false)}}>NO</button>
-                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ml-2 ${watch(`${el.title}.${item.title}`)==true ? '' : 'opacity-20'}`}
-                                                            onClick={() => {setValue(`${el.title}.${item.title}`, true)}}>SI</button>
-                                                        </div>
-                                                        {index < el.data.length-1 && <div className="flex justify-center">
-                                                            <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full ${watch(`${el.title}.${item.title}`)==null ? 'opacity-20' : ''}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
-                                                        </div>}
-                                                        
                                                     </div>
                                                 )
                                             })}
