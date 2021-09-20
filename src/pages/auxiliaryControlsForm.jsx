@@ -33,6 +33,10 @@ const AuxiliaryControlsForm = () => {
 
     const onSubmit = data => console.log(data);
 
+    const animateSlide = (id, index) => {
+        document.getElementById(`${id}`).style.transform = `translateX(-${index}00%)`
+    }
+
     return (
         <div className="max-w-3xl mx-auto">
             <div>
@@ -97,12 +101,19 @@ const AuxiliaryControlsForm = () => {
                                 <div className="w-full">
                                     <p>{el.title}</p>
                                     <div className="bg-white shadow-sm overflow-hidden rounded-xl border-2 border-solid border-blue-600 mt-6">
-                                        <div className="flex">
+                                        <div className="flex transition duration-500 ease-in-out" id={el.title}>
                                             {el.data.map((item, index) => {
                                                 return (
-                                                    <div className="w-full flex-shrink-0 p-12">
-                                                        <h2>{item.title}</h2>
-                                                        <p>{item.description}</p>
+                                                    <div className="w-full flex-shrink-0 p-12 relative">
+                                                        {index>0 && <div className="w-12 h-12 rounded-full absolute top-5 left-5 bg-gray-200 flex items-center justify-center"
+                                                        onClick={() => {animateSlide(el.title, index-1)}}>
+                                                            <i className="fas fa-chevron-left"></i>
+                                                        </div>}
+                                                        
+                                                        <div className="flex justify-center flex-col items-center">
+                                                            <h2>{item.title}</h2>
+                                                            <p>{item.description}</p>
+                                                        </div>
                                                         <div className="mt-6 flex justify-center">
                                                             <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ${watch(`${el.title}.${item.title}`, 'value')==false ? '' : 'opacity-20'}`}
                                                             onClick={() => {setValue(`${el.title}.${item.title}`, false)}}>NO</button>
@@ -110,7 +121,7 @@ const AuxiliaryControlsForm = () => {
                                                             onClick={() => {setValue(`${el.title}.${item.title}`, true)}}>SI</button>
                                                         </div>
                                                         <div className="flex justify-center">
-                                                            <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full`}>NEXT</button>
+                                                            <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
                                                         </div>
                                                     </div>
                                                 )
