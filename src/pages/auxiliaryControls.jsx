@@ -92,11 +92,13 @@ const AuxiliaryControls = () => {
                         "data": [
                             {
                                 "icon": "covid-19",
-                                "description": "Lorem Ipsum"
+                                "title": "Lorem ipsum sit",
+                                "description": "Lorem Ipsum1"
                             },
                             {
                                 "icon": "worker",
-                                "description": "Lorem Ipsum"
+                                "title": "Lorem ipsum",
+                                "description": "Lorem Ipsum2"
                             }
                         ]
                     }

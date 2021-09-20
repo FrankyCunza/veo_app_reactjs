@@ -12,14 +12,6 @@ const AuxiliaryControlsForm = () => {
     const [data, setData] = useState(location.state.data)
 
     useEffect(() => {
-        let form = {
-            "Nombre": "",
-            "Apellidos": "",
-            "Checkboxes": {
-                "Asma": false,
-                "Tos": false
-            }
-        }
         for (let i=0; i<data.form.length; i++) {
             if (data.form[i].type == 'field_text' || data.form[i].type == 'field_date' || data.form[i].type == 'field_select') {
                 setValue(data.form[i].title, '')
@@ -27,6 +19,12 @@ const AuxiliaryControlsForm = () => {
                 let collectData = {}
                 data.form[i].data.forEach((el, s) => {
                     collectData[el.title] = el.value
+                })
+                setValue(data.form[i].title, collectData)
+            } else if (data.form[i].type == 'carousel') {
+                let collectData = {}
+                data.form[i].data.forEach((el, s) => {
+                    collectData[el.title] = null
                 })
                 setValue(data.form[i].title, collectData)
             }
@@ -91,6 +89,33 @@ const AuxiliaryControlsForm = () => {
                                                 </div>
                                             )
                                         })}
+                                    </div>
+                                </div>
+                            )
+                        } else if (el.type == "carousel") {
+                            return (
+                                <div className="w-full">
+                                    <p>{el.title}</p>
+                                    <div className="bg-white shadow-sm overflow-hidden rounded-xl border-2 border-solid border-blue-600 mt-6">
+                                        <div className="flex">
+                                            {el.data.map((item, index) => {
+                                                return (
+                                                    <div className="w-full flex-shrink-0 p-12">
+                                                        <h2>{item.title}</h2>
+                                                        <p>{item.description}</p>
+                                                        <div className="mt-6 flex justify-center">
+                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ${watch(`${el.title}.${item.title}`, 'value')==false ? '' : 'opacity-20'}`}
+                                                            onClick={() => {setValue(`${el.title}.${item.title}`, false)}}>NO</button>
+                                                            <button type="button" className={`bg-blue-600 rounded-full py-3 p-10 text-white ml-2 ${watch(`${el.title}.${item.title}`, 'value')==true ? '' : 'opacity-20'}`}
+                                                            onClick={() => {setValue(`${el.title}.${item.title}`, true)}}>SI</button>
+                                                        </div>
+                                                        <div className="flex justify-center">
+                                                            <button className={`mt-6 bg-green-500 py-3 px-6 rounded-full`}>NEXT</button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             )
