@@ -1,12 +1,14 @@
 import React, { useState, useEffect, setState } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import  { Redirect, useHistory, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import Skeleton from '../components/skeleton';
 
 const Profile = () => {
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, trigger, setValue, formState: { errors } } = useForm();
     const [fieldTypes, setFieldTypes] = useState({})
     const [form, setForm] = useState(null)
+    const [isLoading, setLoading] = useState(true)
     let history = useHistory()
 
     const data = {
@@ -277,9 +279,7 @@ const Profile = () => {
       .then((response) => response.json())
       .then((json) => {
         setForm(json)
-        setTimeout(() => {
-          getProfile()
-        }, 2000);
+        getProfile()
       })
       .catch((error) => {
         // alert('Error Save Form1', error)
@@ -300,10 +300,12 @@ const Profile = () => {
           for (const [key, value] of Object.entries(getValues)) {
             if (fieldTypes[key] == 'field_text' || fieldTypes[key] == 'field_date' || fieldTypes[key] == 'field_number' || fieldTypes[key] == 'field_select' || fieldTypes[key] == 'field_radio_conditional' || fieldTypes[key] == 'field_radio_options') {
               setValue(key , value)
+              // useWatch(key, value)
             } else if (fieldTypes[key] == 'field_checkboxes') {
 
             } else {}
           }
+          setLoading(false)
       }, [])
     }
 
@@ -324,6 +326,8 @@ const Profile = () => {
     }, [])
 
     const onSubmit = async (data) => {
+      console.log(data)
+      return false
       let dataSend = {
         "title":"Perfil",
         "code": "SD2005",
@@ -370,7 +374,7 @@ const Profile = () => {
             </div>
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
             {
-              form!==null && form.data.map((el, i) => {
+              isLoading ? <Skeleton quantity={4} /> : form.data.map((el, i) => {
                   if (el.type == "field_text") {
                     return (
                       <div className="w-full" key={el.name}>
