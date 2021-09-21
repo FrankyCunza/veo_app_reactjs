@@ -52,19 +52,22 @@ const Login = () => {
     }
     return (
         <div className="w-full text-center mx-auto bg-blue-500 h-screen">
+            <div className="flex justify-center pt-10">
+                <img src="./assets/img/logo-veo365.png" alt="" />
+            </div>
             <div>
-                <h1 className="text-4xl font-bold py-8 text-white">Iniciar sesión</h1>
+                <h1 className="text-4xl font-bold py-6 text-white">Iniciar sesión</h1>
             </div>
             <form onSubmit={handleSubmit}  className="max-w-md bg-white shadow-xl rounded-xl p-8 mx-auto relative overflow-hidden">
                 {submitting && <Loader />}
                 <div className="text-left">
                     <label htmlFor="" className="text-lg font-medium block">Usuario</label>
-                    <input type="text" name="user" onChange={handleChange} className="h-14 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full rounded-xl mt-1 pl-4 bg-gray-200" />
+                    <input type="text" name="user" onChange={handleChange} className="h-14 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full rounded-xl mt-1 pl-4 bg-gray-200 hover:border-blue-600 border-2" />
                 </div>
 
                 <div className="text-left mt-4">
                     <label htmlFor="" className="text-lg font-medium block">Contraseña</label>
-                    <input type="password" name="password" onChange={handleChange} className="h-14 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full rounded-xl mt-1 pl-4 bg-gray-200" />
+                    <input type="password" name="password" onChange={handleChange} className="h-14 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full rounded-xl mt-1 pl-4 bg-gray-200 hover:border-blue-600 border-2" />
                 </div>
 
                 <div className="text-left mt-4 flex justify-center w-full">
