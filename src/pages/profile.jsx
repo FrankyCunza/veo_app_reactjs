@@ -6,10 +6,10 @@ import Skeleton from '../components/skeleton';
 
 const Profile = () => {
     const { register, handleSubmit, watch, trigger, setValue, formState: { errors } } = useForm();
-    const [fieldTypes, setFieldTypes] = useState({})
     const [form, setForm] = useState(null)
     const [isLoading, setLoading] = useState(true)
     let history = useHistory()
+    let fieldTypes = {}
 
     const data = {
         "company_id":1,
@@ -278,21 +278,17 @@ const Profile = () => {
       })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json)
         setForm(json)
         setLoading(false)
-        let newDictFieldTypes = {}
         for (let i=0; i<json.data.length; i++) {
-          newDictFieldTypes[json.data[i].name] = json.data[i].type
+          fieldTypes[json.data[i].name] = json.data[i].type
           if (json.data[i].type === 'field_text' || 
             json.data[i].type === 'field_date' || 
             json.data[i].type === 'field_select' || 
             json.data[i].type === 'field_radio_conditional' || json.data[i].type === 'field_radio_options') {
-            setValue(json.data[i].name, 'Nice')
+            setValue(json.data[i].name, '')
           }
         }
-        setFieldTypes(newDictFieldTypes)
-
         getProfile()
       })
       .catch((error) => {
@@ -311,12 +307,9 @@ const Profile = () => {
         },
       }).then(response => {
           let getValues = response.data.data.data
-          console.log(getValues)
           for (const [key, value] of Object.entries(getValues)) {
-            console.log(key, value)
-            setValue(key, 'No')
             if (fieldTypes[key] === 'field_text' || fieldTypes[key] === 'field_date' || fieldTypes[key] === 'field_number' || fieldTypes[key] === 'field_select' || fieldTypes[key] === 'field_radio_conditional' || fieldTypes[key] === 'field_radio_options') {
-              // setValue(key, value)
+              setValue(key, value)
             } else if (fieldTypes[key] === 'field_checkboxes') {
 
             } else {}
