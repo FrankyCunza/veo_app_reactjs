@@ -466,24 +466,23 @@ const Profile = () => {
                       )
                   } else if (el.type === "field_checkboxes") {
                       return (
-                          <div className="w-full" key={'profile'+el.name}>
-                              <p className="font-medium text-lg">{el.title}</p>
-                              <div className="grid grid-cols-3 gap-4 mt-2">
-                                  {el.data.map((item, index) => {
-                                      return (
-                                          <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
-                                              <input type="checkbox" checked={watch(`${el.name}`) ? watch(`${el.name}.${item.title}`) : false} 
-                                              onChange={(e) => {setValue(`${el.name}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
-                                              <p className="text-lg tracking-wide font-medium">{item.title}</p>
-                                              {watch(`${el.name}.${item.title}`)==true && <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
-                                                  <i className="fas fa-check"></i>
-                                              </div>}
-                                              
-                                          </div>
-                                      )
-                                  })}
-                              </div>
+                        <div className="w-full" key={'profile'+el.name}>
+                          <p className="font-medium text-lg">{el.title}</p>
+                          <div className="grid grid-cols-3 gap-4 mt-2">
+                            {el.data.map((item, index) => {
+                              return (
+                                <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
+                                  <input type="checkbox" checked={watch(`${el.name}`) ? watch(`${el.name}.${item.title}`) : false} 
+                                  onChange={(e) => {setValue(`${el.name}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
+                                  <p className="text-lg tracking-wide font-medium">{item.title}</p>
+                                  {watch(`${el.name}.${item.title}`)==true && <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
+                                    <i className="fas fa-check"></i>
+                                  </div>}
+                                </div>
+                              )
+                            })}
                           </div>
+                        </div>
                       )
                   } else if (el.type === "carousel") {
                       return (
