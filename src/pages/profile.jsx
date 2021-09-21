@@ -3,11 +3,14 @@ import { useForm, useWatch } from "react-hook-form";
 import  { Redirect, useHistory, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import Skeleton from '../components/skeleton';
+import { Alert } from '../components/alert';
 
 const Profile = () => {
     const { register, handleSubmit, watch, trigger, setValue, formState: { errors } } = useForm();
     const [form, setForm] = useState(null)
     const [isLoading, setLoading] = useState(true)
+    const [showAlert, setShowAlert] = useState(false)
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
     let history = useHistory()
     let fieldTypes = {}
 
@@ -322,9 +325,7 @@ const Profile = () => {
     }, [])
 
     const onSubmit = async (data) => {
-      // getProfile()
-      console.log(data)
-      return false
+      setLoading(true)
       let dataSend = {
         "title":"Perfil",
         "code": "SD2005",
@@ -348,6 +349,13 @@ const Profile = () => {
           })
           .then((response) => response.json())
           .then((json) => {
+            setLoading(false)
+            if (!json.error) {
+              setMessageAlert({title: json.title ?? json.message, message: json.message, route: '/home', state: 'success'})
+            } else {
+              setMessageAlert({title: json.title ?? json.message, message: json.message, route: '/home', state: 'error'})
+            }
+            setShowAlert(true)
           })
           .catch((error) => {
             // alert('Error Save Form1', error)
@@ -369,6 +377,7 @@ const Profile = () => {
                 </a>
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Perfil</h1>
             </div>
+            {showAlert && <Alert props={messageAlert} />}
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
             {
               isLoading ? <Skeleton quantity={4} /> : form.data.map((el, i) => {
