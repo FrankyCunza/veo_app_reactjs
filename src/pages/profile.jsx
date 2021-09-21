@@ -6,6 +6,7 @@ import axios from 'axios'
 const Profile = () => {
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
     const [fieldTypes, setFieldTypes] = useState({})
+    const [form, setForm] = useState(null)
     let history = useHistory()
 
     const data = {
@@ -259,7 +260,7 @@ const Profile = () => {
         }
     }
 
-    const getProfileValues = () => {
+    const getProfileForm = () => {
       const token = localStorage.getItem('token')
       const id = localStorage.getItem('id')
       const company_id = localStorage.getItem('company_id')
@@ -275,6 +276,10 @@ const Profile = () => {
       })
       .then((response) => response.json())
       .then((json) => {
+        setForm(json)
+        setTimeout(() => {
+          getProfile()
+        }, 2000);
       })
       .catch((error) => {
         // alert('Error Save Form1', error)
@@ -315,10 +320,7 @@ const Profile = () => {
       }
       setFieldTypes(newDictFieldTypes)
 
-      getProfileValues()
-      setTimeout(() => {
-        getProfile()
-      }, 3000);
+      getProfileForm()
     }, [])
 
     const onSubmit = async (data) => {
@@ -368,133 +370,133 @@ const Profile = () => {
             </div>
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
             {
-                    data.cards.map((el, i) => {
-                        if (el.type == "field_text") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <input type="text" name="" id="" {...register(el.name)}
-                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
-                                </div>
-                            )
-                        } else if (el.type == "field_date") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <input type="date" name="" id="" {...register(el.name)}
-                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
-                                </div>
-                            )
-                        } else if (el.type == "field_number") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <input type="number" name="" id="" {...register(el.name)}
-                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
-                                </div>
-                            )
-                        } else if (el.type == "field_select") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <select name="" id="" {...register(el.name)}
-                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50'>
-                                        <option value="">Seleccionar</option>
-                                        {el.data.map((item, index) => {
-                                            return (
-                                                <option value={item.label} >{item.label}</option>
-                                            )
-                                        })}
-                                    </select>
-                                </div>
-                            )
-                        } else if (el.type == "field_radio_conditional") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <div className="mt-2 flex">
-                                        <div className="rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-gray-400 flex items-center w-max"
-                                        ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-200 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-white rounded-full"></div></div> No</div>
-                                        <div className="ml-3 rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-blue-600 flex items-center w-max"
-                                        ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-200 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-blue-600 rounded-full"></div></div> Si</div>
-                                    </div>
-                                </div>
-                            )
-                        } else if (el.type == "field_radio_options") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <div className="mt-2 flex -ml-2">
-                                        {el.data.map((item, index) => {
-                                            return (
-                                                <div className="px-2">
-                                                    <div className="rounded-xl pl-4 pr-6 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-gray-400 flex items-center w-max"
-                                                    ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-300 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-white rounded-full"></div></div> {item}</div>
-                                                </div>
-                                            )
-                                        })}
-                                    </div>
-                                </div>
-                            )
-                        } else if (el.type == "field_checkboxes") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <div className="grid grid-cols-3 gap-4 mt-2">
-                                        {el.data.map((item, index) => {
-                                            return (
-                                                <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
-                                                    <input type="checkbox" checked={watch(`${el.name}`) ? watch(`${el.name}.${item.title}`) : false} 
-                                                    onChange={(e) => {setValue(`${el.name}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
-                                                    <p className="text-lg tracking-wide font-medium">{item.title}</p>
-                                                    {watch(`${el.name}.${item.title}`)==true && <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
-                                                        <i className="fas fa-check"></i>
-                                                    </div>}
-                                                    
-                                                </div>
-                                            )
-                                        })}
-                                    </div>
-                                </div>
-                            )
-                        } else if (el.type == "carousel") {
-                            return (
-                                <div className="w-full" key={el.name}>
-                                    <p className="font-medium text-lg">{el.title}</p>
-                                    <div className="bg-white shadow-xl overflow-hidden rounded-2xl border-2 border-solid border-blue-600 mt-2">
-                                        <div className="flex transition duration-500 ease-in-out" id={el.title}>
-                                            {el.data.map((item, index) => {
-                                                return (
-                                                    <div className="w-full flex-shrink-0 px-12 py-16 relative flex items-center justify-center">
-                                                        {index>0 && <div className="w-12 h-12 cursor-pointer rounded-full absolute top-5 left-5 bg-gray-200 flex items-center justify-center"
-                                                        onClick={() => {animateSlide(el.title, index-1)}}>
-                                                            <i className="fas fa-chevron-left"></i>
-                                                        </div>}
-                                                        <div className="flex items-center justify-center flex-col">
-                                                            <div className="w-28 h-28 mb-6 rounded-full flex items-center justify-center bg-gray-100">
-                                                                <img src={'./assets/svgs/logout-icon.svg'} alt="" className="w-14 max-h-16" />
-                                                            </div>
-                                                            <h2 className="text-2xl font-medium">{item.title}</h2>
-                                                            <p className="text-lg mt-4">{item.description}</p>
-                                                            <div className="mt-6 flex justify-center">
-                                                                <button type="button" className={`tracking-wide font-medium border border-solid rounded-full py-3 pl-5 pr-12 border-blue-600 ${watch(`${el.name}.${item.title}`)==false ? 'bg-blue-600 text-white' : 'border-white'}`}
-                                                                onClick={() => {setValue(`${el.name}.${item.title}`, false)}}><i className={`fas fa-check opacity-0 mr-4 ${watch(`${el.name}.${item.title}`)==false && 'opacity-100'}`}></i>NO</button>
-                                                                <button type="button" className={`tracking-wide font-medium border border-solid rounded-full py-3 pl-5 pr-12 border-blue-600 ml-2 ${watch(`${el.name}.${item.title}`)==true ? 'bg-blue-600 text-white' : 'border-white'}`}
-                                                                onClick={() => {setValue(`${el.name}.${item.title}`, true)}}><i className={`fas fa-check opacity-0 mr-4 ${watch(`${el.name}.${item.title}`)==true && 'opacity-100'}`}></i>SI</button>
-                                                            </div>
-                                                            {index < el.data.length-1 && <div className="flex justify-center">
-                                                                <button className={`mt-6 py-3 px-12 text-white rounded-full ${watch(`${el.name}.${item.title}`)==null ? 'bg-gray-500' : 'bg-green-500'}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
-                                                            </div>}
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        }
-                    })
+              form!==null && form.data.map((el, i) => {
+                  if (el.type == "field_text") {
+                    return (
+                      <div className="w-full" key={el.name}>
+                          <p className="font-medium text-lg">{el.title}</p>
+                          <input type="text" name="" id="" {...register(el.name)}
+                          className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
+                      </div>
+                    )
+                  } else if (el.type == "field_date") {
+                    return (
+                      <div className="w-full" key={el.name}>
+                        <p className="font-medium text-lg">{el.title}</p>
+                        <input type="date" name="" id="" {...register(el.name)}
+                        className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
+                      </div>
+                    )
+                  } else if (el.type == "field_number") {
+                    return (
+                      <div className="w-full" key={el.name}>
+                        <p className="font-medium text-lg">{el.title}</p>
+                        <input type="number" name="" id="" {...register(el.name)}
+                        className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
+                      </div>
+                    )
+                  } else if (el.type == "field_select") {
+                      return (
+                        <div className="w-full" key={el.name}>
+                          <p className="font-medium text-lg">{el.title}</p>
+                          <select name="" id="" {...register(el.name)}
+                          className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50'>
+                              <option value="">Seleccionar</option>
+                              {el.data.map((item, index) => {
+                                  return (
+                                      <option value={item.label} >{item.label}</option>
+                                  )
+                              })}
+                          </select>
+                        </div>
+                      )
+                  } else if (el.type == "field_radio_conditional") {
+                      return (
+                        <div className="w-full" key={el.name}>
+                          <p className="font-medium text-lg">{el.title}</p>
+                          <div className="mt-2 flex">
+                            <div className="rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-gray-400 flex items-center w-max"
+                            ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-200 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-white rounded-full"></div></div> No</div>
+                            <div className="ml-3 rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-blue-600 flex items-center w-max"
+                            ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-200 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-blue-600 rounded-full"></div></div> Si</div>
+                          </div>
+                        </div>
+                      )
+                  } else if (el.type == "field_radio_options") {
+                      return (
+                          <div className="w-full" key={el.name}>
+                              <p className="font-medium text-lg">{el.title}</p>
+                              <div className="mt-2 flex -ml-2">
+                                  {el.data.map((item, index) => {
+                                      return (
+                                          <div className="px-2">
+                                              <div className="rounded-xl pl-4 pr-6 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-gray-400 flex items-center w-max"
+                                              ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-300 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-white rounded-full"></div></div> {item}</div>
+                                          </div>
+                                      )
+                                  })}
+                              </div>
+                          </div>
+                      )
+                  } else if (el.type == "field_checkboxes") {
+                      return (
+                          <div className="w-full" key={el.name}>
+                              <p className="font-medium text-lg">{el.title}</p>
+                              <div className="grid grid-cols-3 gap-4 mt-2">
+                                  {el.data.map((item, index) => {
+                                      return (
+                                          <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
+                                              <input type="checkbox" checked={watch(`${el.name}`) ? watch(`${el.name}.${item.title}`) : false} 
+                                              onChange={(e) => {setValue(`${el.name}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
+                                              <p className="text-lg tracking-wide font-medium">{item.title}</p>
+                                              {watch(`${el.name}.${item.title}`)==true && <div className="w-7 h-7 text-xs bg-black bg-opacity-30 rounded-full flex items-center justify-center absolute right-3 top-3 text-white">
+                                                  <i className="fas fa-check"></i>
+                                              </div>}
+                                              
+                                          </div>
+                                      )
+                                  })}
+                              </div>
+                          </div>
+                      )
+                  } else if (el.type == "carousel") {
+                      return (
+                          <div className="w-full" key={el.name}>
+                              <p className="font-medium text-lg">{el.title}</p>
+                              <div className="bg-white shadow-xl overflow-hidden rounded-2xl border-2 border-solid border-blue-600 mt-2">
+                                  <div className="flex transition duration-500 ease-in-out" id={el.title}>
+                                      {el.data.map((item, index) => {
+                                          return (
+                                              <div className="w-full flex-shrink-0 px-12 py-16 relative flex items-center justify-center">
+                                                  {index>0 && <div className="w-12 h-12 cursor-pointer rounded-full absolute top-5 left-5 bg-gray-200 flex items-center justify-center"
+                                                  onClick={() => {animateSlide(el.title, index-1)}}>
+                                                      <i className="fas fa-chevron-left"></i>
+                                                  </div>}
+                                                  <div className="flex items-center justify-center flex-col">
+                                                      <div className="w-28 h-28 mb-6 rounded-full flex items-center justify-center bg-gray-100">
+                                                          <img src={'./assets/svgs/logout-icon.svg'} alt="" className="w-14 max-h-16" />
+                                                      </div>
+                                                      <h2 className="text-2xl font-medium">{item.title}</h2>
+                                                      <p className="text-lg mt-4">{item.description}</p>
+                                                      <div className="mt-6 flex justify-center">
+                                                          <button type="button" className={`tracking-wide font-medium border border-solid rounded-full py-3 pl-5 pr-12 border-blue-600 ${watch(`${el.name}.${item.title}`)==false ? 'bg-blue-600 text-white' : 'border-white'}`}
+                                                          onClick={() => {setValue(`${el.name}.${item.title}`, false)}}><i className={`fas fa-check opacity-0 mr-4 ${watch(`${el.name}.${item.title}`)==false && 'opacity-100'}`}></i>NO</button>
+                                                          <button type="button" className={`tracking-wide font-medium border border-solid rounded-full py-3 pl-5 pr-12 border-blue-600 ml-2 ${watch(`${el.name}.${item.title}`)==true ? 'bg-blue-600 text-white' : 'border-white'}`}
+                                                          onClick={() => {setValue(`${el.name}.${item.title}`, true)}}><i className={`fas fa-check opacity-0 mr-4 ${watch(`${el.name}.${item.title}`)==true && 'opacity-100'}`}></i>SI</button>
+                                                      </div>
+                                                      {index < el.data.length-1 && <div className="flex justify-center">
+                                                          <button className={`mt-6 py-3 px-12 text-white rounded-full ${watch(`${el.name}.${item.title}`)==null ? 'bg-gray-500' : 'bg-green-500'}`} onClick={() => {animateSlide(el.title, index+1)}}>NEXT</button>
+                                                      </div>}
+                                                  </div>
+                                              </div>
+                                          )
+                                      })}
+                                  </div>
+                              </div>
+                          </div>
+                      )
+                  }
+              })
                 }
                 <button type="submit" className="w-full bg-blue-600 text-white py-5 tracking-wider text-xl rounded-full mt-4">Enviar</button>
             </form>
