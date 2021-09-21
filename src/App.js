@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './pages/login'
 import Daily from './pages/daily'
-import Profile from './pages/profileData'
+import ProfileOld from './pages/profileData'
 import Home from './pages/home';
 import Protocols from './pages/protocols';
 import PageStep from './pages/pageStep';
@@ -12,6 +12,7 @@ import InformedEntries from './pages/informedEntries';
 import InformedArticle from './pages/informedArticle';
 import AuxiliaryControls from './pages/auxiliaryControls';
 import AuxiliaryControlsForm from './pages/auxiliaryControlsForm';
+import Profile from './pages/profile';
 function App() {
   return (
     <BrowserRouter>
@@ -40,6 +41,9 @@ function App() {
         </Route>
         <Route path="/testdiario">
           <Daily />
+        </Route>
+        <Route path="/profileOld">
+          <ProfileOld />
         </Route>
         <Route path="/profile">
           <Profile />

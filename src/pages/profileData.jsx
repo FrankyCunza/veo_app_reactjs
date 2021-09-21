@@ -2,7 +2,7 @@ import React, { useState, useEffect, setState } from 'react';
 import axios from 'axios'
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 
-const Profile = () => {
+const ProfileOld = () => {
     const [data, setData] = useState([]);
     const [profile, setProfile] = useState([]);
     const [risksChecks, setrisksChecks] = useState([]);
@@ -358,4 +358,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default ProfileOld

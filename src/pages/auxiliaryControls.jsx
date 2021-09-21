@@ -27,11 +27,13 @@ const AuxiliaryControls = () => {
                     },
                     {
                         "type": "field_text",
-                        "title": "Nombre"
+                        "title": "Nombre",
+                        "name": "name"
                     },
                     {
                         "type": "field_checkboxes",
                         "title": "Checkboxes",
+                        "name": "risk_factors",
                         "data": [
                             {
                                 "title": "Asma",
@@ -52,16 +54,19 @@ const AuxiliaryControls = () => {
                     },
                     {
                         "type": "field_text",
-                        "title": "Apellidos"
+                        "title": "Apellidos",
+                        "name": "last_name"
                     },
                     {
                         "type": "field_date",
-                        "title": "Date"
+                        "title": "Date of birth",
+                        "name": "date_birth"
                     },
                     {
                         "type": "field_select",
                         "icon": "worker",
                         "title": "Country",
+                        "name": "country",
                         "data": [
                             {
                                 "label": "Peru",
@@ -89,6 +94,7 @@ const AuxiliaryControls = () => {
                         "type": "carousel",
                         "icon": "worker",
                         "title": "Entrada",
+                        "name": "worker",
                         "data": [
                             {
                                 "icon": "covid-19",
