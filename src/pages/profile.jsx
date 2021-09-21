@@ -271,9 +271,11 @@ const Profile = () => {
         }).then(response => {
             let getValues = response.data.data.data
             for (const [key, value] of Object.entries(getValues)) {
-                if (fieldTypes[key] == 'field_text') {
+                if (fieldTypes[key] == 'field_text' || fieldTypes[key] == 'field_date' || fieldTypes[key] == 'field_number' || fieldTypes[key] == 'field_select' || fieldTypes[key] == 'field_radio_conditional' || fieldTypes[key] == 'field_radio_options') {
                     setValue(key , value)
-                }
+                } else if (fieldTypes[key] == 'field_checkboxes') {
+
+                } else {}
             }
         }, [])
     }
@@ -291,7 +293,9 @@ const Profile = () => {
         }
         setFieldTypes(newDictFieldTypes)
 
-        getProfile()
+        setTimeout(() => {
+            getProfile()
+        }, 3000);
 
     }, [])
 
@@ -328,6 +332,14 @@ const Profile = () => {
                                     className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
                                 </div>
                             )
+                        } else if (el.type == "field_number") {
+                            return (
+                                <div className="w-full" key={el.name}>
+                                    <p className="font-medium text-lg">{el.title}</p>
+                                    <input type="number" name="" id="" {...register(el.name)}
+                                    className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
+                                </div>
+                            )
                         } else if (el.type == "field_select") {
                             return (
                                 <div className="w-full" key={el.name}>
@@ -341,6 +353,18 @@ const Profile = () => {
                                             )
                                         })}
                                     </select>
+                                </div>
+                            )
+                        } else if (el.type == "field_radio_conditional") {
+                            return (
+                                <div className="w-full" key={el.name}>
+                                    <p className="font-medium text-lg">{el.title}</p>
+                                    <div className="mt-2 flex">
+                                        <div className="rounded-xl pl-4 pr-6 cursor-pointer py-2 font-medium text-gray-800 border border-solid border-gray-400 flex items-center w-max"
+                                        ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-300 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-white rounded-full"></div></div> No</div>
+                                        <div className="ml-3 rounded-xl pl-4 pr-6 cursor-pointer py-2 font-medium text-gray-800 border border-solid border-blue-600 flex items-center w-max"
+                                        ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-300 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-blue-600 rounded-full"></div></div> Si</div>
+                                    </div>
                                 </div>
                             )
                         } else if (el.type == "field_checkboxes") {
