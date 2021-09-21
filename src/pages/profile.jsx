@@ -290,6 +290,13 @@ const Profile = () => {
             json.data[i].type === 'field_select' || 
             json.data[i].type === 'field_radio_conditional' || json.data[i].type === 'field_radio_options') {
             setValue(json.data[i].name, '')
+          } else if (json.data[i].type === 'field_checkboxes') {
+            console.log(json.data[i])
+            let newArray = {}
+            for (let s=0; s<json.data[i].data.length; s++) {
+              newArray[json.data[i].data[s].title] = false
+            }
+            setValue(json.data[i].name, newArray)
           }
         }
         getProfile()
@@ -314,7 +321,11 @@ const Profile = () => {
             if (fieldTypes[key] === 'field_text' || fieldTypes[key] === 'field_date' || fieldTypes[key] === 'field_number' || fieldTypes[key] === 'field_select' || fieldTypes[key] === 'field_radio_conditional' || fieldTypes[key] === 'field_radio_options') {
               setValue(key, value)
             } else if (fieldTypes[key] === 'field_checkboxes') {
-
+              let newDict = {}
+              for (const [subKey, subValue] of Object.entries(getValues[key])) {
+                newDict[subKey] = subValue
+              }
+              setValue(key, newDict)
             } else {}
           }
       }, [])
@@ -325,6 +336,8 @@ const Profile = () => {
     }, [])
 
     const onSubmit = async (data) => {
+      console.log(data)
+      // return false
       setLoading(true)
       let dataSend = {
         "title":"Perfil",
@@ -471,7 +484,7 @@ const Profile = () => {
                           <div className="grid grid-cols-3 gap-4 mt-2">
                             {el.data.map((item, index) => {
                               return (
-                                <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
+                                <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`)==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
                                   <input type="checkbox" checked={watch(`${el.name}`) ? watch(`${el.name}.${item.title}`) : false} 
                                   onChange={(e) => {setValue(`${el.name}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
                                   <p className="text-lg tracking-wide font-medium">{item.title}</p>
