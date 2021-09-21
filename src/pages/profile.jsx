@@ -278,7 +278,21 @@ const Profile = () => {
       })
       .then((response) => response.json())
       .then((json) => {
+        console.log(json)
         setForm(json)
+        setLoading(false)
+        let newDictFieldTypes = {}
+        for (let i=0; i<json.data.length; i++) {
+          newDictFieldTypes[json.data[i].name] = json.data[i].type
+          if (json.data[i].type === 'field_text' || 
+            json.data[i].type === 'field_date' || 
+            json.data[i].type === 'field_select' || 
+            json.data[i].type === 'field_radio_conditional' || json.data[i].type === 'field_radio_options') {
+            setValue(json.data[i].name, 'Nice')
+          }
+        }
+        setFieldTypes(newDictFieldTypes)
+
         getProfile()
       })
       .catch((error) => {
@@ -297,35 +311,25 @@ const Profile = () => {
         },
       }).then(response => {
           let getValues = response.data.data.data
+          console.log(getValues)
           for (const [key, value] of Object.entries(getValues)) {
-            if (fieldTypes[key] == 'field_text' || fieldTypes[key] == 'field_date' || fieldTypes[key] == 'field_number' || fieldTypes[key] == 'field_select' || fieldTypes[key] == 'field_radio_conditional' || fieldTypes[key] == 'field_radio_options') {
-              setValue(key , value)
-              // useWatch(key, value)
-            } else if (fieldTypes[key] == 'field_checkboxes') {
+            console.log(key, value)
+            setValue(key, 'No')
+            if (fieldTypes[key] === 'field_text' || fieldTypes[key] === 'field_date' || fieldTypes[key] === 'field_number' || fieldTypes[key] === 'field_select' || fieldTypes[key] === 'field_radio_conditional' || fieldTypes[key] === 'field_radio_options') {
+              // setValue(key, value)
+            } else if (fieldTypes[key] === 'field_checkboxes') {
 
             } else {}
           }
-          setLoading(false)
       }, [])
     }
 
     useEffect(() => {
-      let newDictFieldTypes = {}
-      for (let i=0; i<data.cards.length; i++) {
-        newDictFieldTypes[data.cards[i].name] = data.cards[i].type
-        if (data.cards[i].type == 'field_text' || 
-          data.cards[i].type == 'field_date' || 
-          data.cards[i].type == 'field_select' || 
-          data.cards[i].type == 'field_radio_conditional' || data.cards[i].type == 'field_radio_options') {
-          setValue(data.cards[i].name ?? data.cards[i].title , '')
-        }
-      }
-      setFieldTypes(newDictFieldTypes)
-
       getProfileForm()
     }, [])
 
     const onSubmit = async (data) => {
+      // getProfile()
       console.log(data)
       return false
       let dataSend = {
@@ -375,15 +379,15 @@ const Profile = () => {
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
             {
               isLoading ? <Skeleton quantity={4} /> : form.data.map((el, i) => {
-                  if (el.type == "field_text") {
+                  if (el.type === "field_text") {
                     return (
                       <div className="w-full" key={el.name}>
                           <p className="font-medium text-lg">{el.title}</p>
-                          <input type="text" name="" id="" {...register(el.name)}
+                          <input type="text" name="" id="" {...register(el.name)} setValue={setValue}
                           className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
                       </div>
                     )
-                  } else if (el.type == "field_date") {
+                  } else if (el.type === "field_date") {
                     return (
                       <div className="w-full" key={el.name}>
                         <p className="font-medium text-lg">{el.title}</p>
@@ -391,7 +395,7 @@ const Profile = () => {
                         className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
                       </div>
                     )
-                  } else if (el.type == "field_number") {
+                  } else if (el.type === "field_number") {
                     return (
                       <div className="w-full" key={el.name}>
                         <p className="font-medium text-lg">{el.title}</p>
@@ -399,7 +403,7 @@ const Profile = () => {
                         className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
                       </div>
                     )
-                  } else if (el.type == "field_select") {
+                  } else if (el.type === "field_select") {
                       return (
                         <div className="w-full" key={el.name}>
                           <p className="font-medium text-lg">{el.title}</p>
@@ -414,7 +418,7 @@ const Profile = () => {
                           </select>
                         </div>
                       )
-                  } else if (el.type == "field_radio_conditional") {
+                  } else if (el.type === "field_radio_conditional") {
                       return (
                         <div className="w-full" key={el.name}>
                           <p className="font-medium text-lg">{el.title}</p>
@@ -426,7 +430,7 @@ const Profile = () => {
                           </div>
                         </div>
                       )
-                  } else if (el.type == "field_radio_options") {
+                  } else if (el.type === "field_radio_options") {
                       return (
                           <div className="w-full" key={el.name}>
                               <p className="font-medium text-lg">{el.title}</p>
@@ -442,7 +446,7 @@ const Profile = () => {
                               </div>
                           </div>
                       )
-                  } else if (el.type == "field_checkboxes") {
+                  } else if (el.type === "field_checkboxes") {
                       return (
                           <div className="w-full" key={el.name}>
                               <p className="font-medium text-lg">{el.title}</p>
@@ -463,7 +467,7 @@ const Profile = () => {
                               </div>
                           </div>
                       )
-                  } else if (el.type == "carousel") {
+                  } else if (el.type === "carousel") {
                       return (
                           <div className="w-full" key={el.name}>
                               <p className="font-medium text-lg">{el.title}</p>
