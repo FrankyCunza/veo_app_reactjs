@@ -374,7 +374,7 @@ const Profile = () => {
               isLoading ? <Skeleton quantity={4} /> : form.data.map((el, i) => {
                   if (el.type === "field_text") {
                     return (
-                      <div className="w-full" key={el.name}>
+                      <div className="w-full" key={'profile'+el.name}>
                           <p className="font-medium text-lg">{el.title}</p>
                           <input type="text" name="" id="" {...register(el.name)} setValue={setValue}
                           className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
@@ -382,7 +382,7 @@ const Profile = () => {
                     )
                   } else if (el.type === "field_date") {
                     return (
-                      <div className="w-full" key={el.name}>
+                      <div className="w-full" key={'profile'+el.name}>
                         <p className="font-medium text-lg">{el.title}</p>
                         <input type="date" name="" id="" {...register(el.name)}
                         className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
@@ -390,7 +390,7 @@ const Profile = () => {
                     )
                   } else if (el.type === "field_number") {
                     return (
-                      <div className="w-full" key={el.name}>
+                      <div className="w-full" key={'profile'+el.name}>
                         <p className="font-medium text-lg">{el.title}</p>
                         <input type="number" name="" id="" {...register(el.name)}
                         className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
@@ -398,7 +398,7 @@ const Profile = () => {
                     )
                   } else if (el.type === "field_select") {
                       return (
-                        <div className="w-full" key={el.name}>
+                        <div className="w-full" key={'profile'+el.name}>
                           <p className="font-medium text-lg">{el.title}</p>
                           <select name="" id="" {...register(el.name)}
                           className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50'>
@@ -413,27 +413,38 @@ const Profile = () => {
                       )
                   } else if (el.type === "field_radio_conditional") {
                       return (
-                        <div className="w-full" key={el.name}>
+                        <div className="w-full" key={'profile'+el.name}>
                           <p className="font-medium text-lg">{el.title}</p>
                           <div className="mt-2 flex">
-                            <div className="rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-gray-400 flex items-center w-max"
-                            ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-200 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-white rounded-full"></div></div> No</div>
-                            <div className="ml-3 rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-blue-600 flex items-center w-max"
-                            ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-200 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-blue-600 rounded-full"></div></div> Si</div>
+                            <div className={`rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid ${watch(`${el.name}`) == false ? 'border-blue-600' : 'border-gray-400'} flex items-center w-max`}
+                            onClick={() => {setValue(el.name, false)}}>
+                              <div className={`w-5 h-5 bg-gray-300 shadow-sm rounded-full mr-4 flex items-center justify-center`}>
+                                <div className={`w-3 h-3 rounded-full ${watch(`${el.name}`) == false ? 'bg-blue-600' : 'bg-white'}`}></div>
+                              </div>
+                               No
+                            </div>
+
+                            <div className={`ml-3 rounded-xl pl-4 pr-10 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid ${watch(`${el.name}`) == true ? 'border-blue-600' : 'border-gray-400'} flex items-center w-max`}
+                            onClick={() => {setValue(el.name, true)}}>
+                              <div className={`w-5 h-5 bg-gray-300 shadow-sm rounded-full  mr-4 flex items-center justify-center`}>
+                                <div className={`w-3 h-3 ${watch(`${el.name}`) == true ? 'bg-blue-600' : 'bg-white'} rounded-full`}></div>
+                              </div> 
+                                Si
+                              </div>
                           </div>
                         </div>
                       )
                   } else if (el.type === "field_radio_options") {
                       return (
-                          <div className="w-full" key={el.name}>
+                          <div className="w-full" key={'profile'+el.name}>
                               <p className="font-medium text-lg">{el.title}</p>
                               <div className="mt-2 flex -ml-2">
                                   {el.data.map((item, index) => {
                                       return (
-                                          <div className="px-2">
-                                              <div className="rounded-xl pl-4 pr-6 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid border-gray-400 flex items-center w-max"
-                                              ><div className="w-5 h-5 shadow-sm rounded-full bg-gray-300 mr-4 flex items-center justify-center"><div className="w-3 h-3 bg-white rounded-full"></div></div> {item}</div>
-                                          </div>
+                                        <div className="px-2">
+                                          <div className={`rounded-xl pl-4 pr-6 cursor-pointer py-2.5 font-medium text-gray-800 border border-solid ${watch(`${el.name}`) == item ? 'border-blue-600' : 'border-gray-400'}  flex items-center w-max`}
+                                          onClick={() => {setValue(el.name, item)}}><div className="w-5 h-5 shadow-sm rounded-full bg-gray-300 mr-4 flex items-center justify-center"><div className={`${watch(`${el.name}`) == item ? 'bg-blue-600' : 'bg-white'} w-3 h-3 rounded-full`}></div></div> {item}</div>
+                                        </div>
                                       )
                                   })}
                               </div>
@@ -441,7 +452,7 @@ const Profile = () => {
                       )
                   } else if (el.type === "field_checkboxes") {
                       return (
-                          <div className="w-full" key={el.name}>
+                          <div className="w-full" key={'profile'+el.name}>
                               <p className="font-medium text-lg">{el.title}</p>
                               <div className="grid grid-cols-3 gap-4 mt-2">
                                   {el.data.map((item, index) => {
@@ -462,7 +473,7 @@ const Profile = () => {
                       )
                   } else if (el.type === "carousel") {
                       return (
-                          <div className="w-full" key={el.name}>
+                          <div className="w-full" key={'profile'+el.name}>
                               <p className="font-medium text-lg">{el.title}</p>
                               <div className="bg-white shadow-xl overflow-hidden rounded-2xl border-2 border-solid border-blue-600 mt-2">
                                   <div className="flex transition duration-500 ease-in-out" id={el.title}>
