@@ -12,8 +12,8 @@ const Profile = () => {
         "company_id":1,
         "end_point":"test",
         "job_id":null,
-        "page":"profileFormReactive",
-        "form":[
+        "page":"profileForm",
+        "cards":[
           {
             "type":"field_select",
             "title":"Tipo de documento:",
@@ -246,7 +246,7 @@ const Profile = () => {
           },
           {
             "type":"title",
-            "title":"Antecedentes Familiares",
+            "title":"Antecedentes Familiares"
           }
         ],
         "range":{
@@ -259,48 +259,69 @@ const Profile = () => {
         }
     }
 
-    const getProfile = () => {
-        axios({
-            method: 'get',
-            url: 'https://gateway.vim365.com/users/getprofile',
-            headers: {
-                'security-header': 'Vim365Aputek/2020.04',
-                Authorization: localStorage.getItem('token'),
-                id: localStorage.getItem('id')
-            },
-        }).then(response => {
-            let getValues = response.data.data.data
-            for (const [key, value] of Object.entries(getValues)) {
-                if (fieldTypes[key] == 'field_text' || fieldTypes[key] == 'field_date' || fieldTypes[key] == 'field_number' || fieldTypes[key] == 'field_select' || fieldTypes[key] == 'field_radio_conditional' || fieldTypes[key] == 'field_radio_options') {
-                    setValue(key , value)
-                } else if (fieldTypes[key] == 'field_checkboxes') {
+    const getProfileValues = () => {
+      const token = localStorage.getItem('token')
+      const id = localStorage.getItem('id')
+      const company_id = localStorage.getItem('company_id')
+      const end_point = localStorage.getItem('end_point')
+      fetch(`https://gateway.vim365.com/checkcards/cards?company_id=${company_id}&end_point=${end_point}&page=profileForm`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'security-header': 'Vim365Aputek/2020.04',
+          Authorization: token,
+          id: id
+        }
+      })
+      .then((response) => response.json())
+      .then((json) => {
+      })
+      .catch((error) => {
+        // alert('Error Save Form1', error)
+      });
+    }
 
-                } else {}
-            }
-        }, [])
+    const getProfile = () => {
+      axios({
+        method: 'get',
+        url: 'https://gateway.vim365.com/users/getprofile',
+        headers: {
+          'security-header': 'Vim365Aputek/2020.04',
+          Authorization: localStorage.getItem('token'),
+          id: localStorage.getItem('id')
+        },
+      }).then(response => {
+          let getValues = response.data.data.data
+          for (const [key, value] of Object.entries(getValues)) {
+            if (fieldTypes[key] == 'field_text' || fieldTypes[key] == 'field_date' || fieldTypes[key] == 'field_number' || fieldTypes[key] == 'field_select' || fieldTypes[key] == 'field_radio_conditional' || fieldTypes[key] == 'field_radio_options') {
+              setValue(key , value)
+            } else if (fieldTypes[key] == 'field_checkboxes') {
+
+            } else {}
+          }
+      }, [])
     }
 
     useEffect(() => {
-        let newDictFieldTypes = {}
-        for (let i=0; i<data.form.length; i++) {
-            newDictFieldTypes[data.form[i].name] = data.form[i].type
-            if (data.form[i].type == 'field_text' || 
-                data.form[i].type == 'field_date' || 
-                data.form[i].type == 'field_select' || 
-                data.form[i].type == 'field_radio_conditional' || data.form[i].type == 'field_radio_options') {
-                setValue(data.form[i].name ?? data.form[i].title , '')
-            }
+      let newDictFieldTypes = {}
+      for (let i=0; i<data.cards.length; i++) {
+        newDictFieldTypes[data.cards[i].name] = data.cards[i].type
+        if (data.cards[i].type == 'field_text' || 
+          data.cards[i].type == 'field_date' || 
+          data.cards[i].type == 'field_select' || 
+          data.cards[i].type == 'field_radio_conditional' || data.cards[i].type == 'field_radio_options') {
+          setValue(data.cards[i].name ?? data.cards[i].title , '')
         }
-        setFieldTypes(newDictFieldTypes)
+      }
+      setFieldTypes(newDictFieldTypes)
 
-        setTimeout(() => {
-            getProfile()
-        }, 3000);
-
+      getProfileValues()
+      setTimeout(() => {
+        getProfile()
+      }, 3000);
     }, [])
 
     const onSubmit = async (data) => {
-      console.log(data)
       let dataSend = {
         "title":"Perfil",
         "code": "SD2005",
@@ -309,7 +330,6 @@ const Profile = () => {
         "data": {...data},
         "contact_emergency": {}
       }; 
-      console.log(dataSend)
       try {
         const token = localStorage.getItem('token')
         const id = localStorage.getItem('id')
@@ -348,7 +368,7 @@ const Profile = () => {
             </div>
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
             {
-                    data.form.map((el, i) => {
+                    data.cards.map((el, i) => {
                         if (el.type == "field_text") {
                             return (
                                 <div className="w-full" key={el.name}>
