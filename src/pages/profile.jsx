@@ -299,7 +299,40 @@ const Profile = () => {
 
     }, [])
 
-    const onSubmit = data => console.log(fieldTypes);
+    const onSubmit = async (data) => {
+      console.log(data)
+      let dataSend = {
+        "title":"Perfil",
+        "code": "SD2005",
+        "version": '2.97',
+        "health_staff": false,
+        "data": {...data},
+        "contact_emergency": {}
+      }; 
+      console.log(dataSend)
+      try {
+        const token = localStorage.getItem('token')
+        const id = localStorage.getItem('id')
+        fetch('https://gateway.vim365.com/users/saveprofile', {
+          method: 'POST',
+          body: JSON.stringify({data: dataSend}),
+          headers: {
+              'Content-Type': 'application/json',
+              'security-header': 'Vim365Aputek/2020.04',
+              Authorization: token,
+              id: id
+          }
+          })
+          .then((response) => response.json())
+          .then((json) => {
+          })
+          .catch((error) => {
+            // alert('Error Save Form1', error)
+          });
+      } catch(e) {
+        alert('Error Save Form', e)
+      }
+    };
 
     const animateSlide = (id, index) => {
         document.getElementById(`${id}`).style.transform = `translateX(-${index}00%)`
