@@ -359,9 +359,14 @@ const Profile = () => {
           })
           .catch((error) => {
             // alert('Error Save Form1', error)
+            setLoading(false)
+            setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+            setShowAlert(true)
           });
       } catch(e) {
-        alert('Error Save Form', e)
+        setLoading(false)
+        setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+        setShowAlert(true)
       }
     };
 
