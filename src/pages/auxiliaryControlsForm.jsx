@@ -50,7 +50,7 @@ const AuxiliaryControlsForm = () => {
                     data.form.map((el, i) => {
                         if (el.type == "field_text") {
                             return (
-                                <div className="w-full">
+                                <div className="w-full" key={el.title}>
                                     <p className="font-medium text-lg">{el.title}</p>
                                     <input type="text" name="" id="" {...register(el.name)}
                                     className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
@@ -58,7 +58,7 @@ const AuxiliaryControlsForm = () => {
                             )
                         } else if (el.type == "field_date") {
                             return (
-                                <div className="w-full">
+                                <div className="w-full" key={el.title}>
                                     <p className="font-medium text-lg">{el.title}</p>
                                     <input type="date" name="" id="" {...register(el.name)}
                                     className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50' />
@@ -66,14 +66,14 @@ const AuxiliaryControlsForm = () => {
                             )
                         } else if (el.type == "field_select") {
                             return (
-                                <div className="w-full">
+                                <div className="w-full" key={el.title}>
                                     <p className="font-medium text-lg">{el.title}</p>
                                     <select name="" id="" {...register(el.name)}
                                     className='w-full px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus-blue-600 border border-solid border-gray-400 mt-2 bg-gray-50'>
                                         <option value="">Seleccionar</option>
                                         {el.data.map((item, index) => {
                                             return (
-                                                <option value={item.label} >{item.label}</option>
+                                                <option value={item.label} key={item.label} >{item.label}</option>
                                             )
                                         })}
                                     </select>
@@ -81,12 +81,12 @@ const AuxiliaryControlsForm = () => {
                             )
                         } else if (el.type == "field_checkboxes") {
                             return (
-                                <div className="w-full">
+                                <div className="w-full" key={el.title}>
                                     <p className="font-medium text-lg">{el.title}</p>
                                     <div className="grid grid-cols-4 gap-4 mt-2">
                                         {el.data.map((item, index) => {
                                             return (
-                                                <div className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
+                                                <div key={item.title} className={`border border-solid text-center transition duration-200 ease-linear relative px-12 py-14 rounded-xl shadow ${watch(`${el.name}.${item.title}`, 'value')==true ? 'bg-blue-600 border-blue-600 text-white' : 'bg-gray-50 border-gray-400'}`}>
                                                     <input type="checkbox" checked={watch(`${el.name}`) ? watch(`${el.name}.${item.title}`) : false} 
                                                     onChange={(e) => {setValue(`${el.name}.${item.title}`, e.target.checked)}} className="absolute cursor-pointer opacity-0 top-0 left-0 w-full h-full" />
                                                     <p className="text-lg tracking-wide font-medium">{item.title}</p>
@@ -102,13 +102,13 @@ const AuxiliaryControlsForm = () => {
                             )
                         } else if (el.type == "carousel") {
                             return (
-                                <div className="w-full">
+                                <div className="w-full" key={el.title}>
                                     <p className="font-medium text-lg">{el.title}</p>
                                     <div className="bg-white shadow-xl overflow-hidden rounded-2xl border-2 border-solid border-blue-600 mt-2">
                                         <div className="flex transition duration-500 ease-in-out" id={el.title}>
                                             {el.data.map((item, index) => {
                                                 return (
-                                                    <div className="w-full flex-shrink-0 px-12 py-16 relative flex items-center justify-center">
+                                                    <div key={item.title} className="w-full flex-shrink-0 px-12 py-16 relative flex items-center justify-center">
                                                         {index>0 && <div className="w-12 h-12 cursor-pointer rounded-full absolute top-5 left-5 bg-gray-200 flex items-center justify-center"
                                                         onClick={() => {animateSlide(el.title, index-1)}}>
                                                             <i className="fas fa-chevron-left"></i>
