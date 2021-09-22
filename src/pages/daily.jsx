@@ -109,6 +109,7 @@ const Daily = () => {
         }).catch(function (error) {
             setSubmitting(false)
             setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+            setShowAlert(true)
         })
     }
 
