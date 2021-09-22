@@ -1,6 +1,7 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Skeleton from '../components/skeleton';
+import axios from 'axios'
 import  { Redirect, useHistory } from 'react-router-dom'
 import { Alert } from '../components/alert';
 const Informed = () => {
@@ -23,26 +24,27 @@ const Informed = () => {
             const id = localStorage.getItem('id')
             const company_id = localStorage.getItem('company_id')
             const end_point = localStorage.getItem('end_point')
-            fetch(`http://localhost:8000/news/api/v1.0/get-news?company_id=${company_id}&end_point=${end_point}`, {
+            const param = {
+                company_id: localStorage.getItem('company_id'),
+                end_point: localStorage.getItem('end_point'),
+                page: 'profileForm'
+            };
+            axios({
+                method: 'get',
+                url: `http://localhost:8000/news/api/v1.0/get-news`,
                 headers: {
-                    'Content-Type': 'application/json',
                     'security-header': 'Vim365Aputek/2020.04',
-                    Authorization: token,
-                    id: id
-                }
-                })
-                .then((response) => response.json())
-                .then((json) => {
-                    console.log(json)
-                    setData(json.data)
-                    setLoading(false)
-                    // alert(JSON.stringify(json))
-                })
-                .catch((error) => {
-                    // alert(error)
-                    setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
-                    setShowAlert(true)
-            });
+                    Authorization: localStorage.getItem('token'),
+                    id: localStorage.getItem('id')
+                },
+                params: param
+              }).then(response => {
+                setData(response.data.data)
+                setLoading(false)
+            }, []). catch((error) => {
+                setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+                setShowAlert(true)
+            })
           } catch(e) {
             alert(e)
         }
