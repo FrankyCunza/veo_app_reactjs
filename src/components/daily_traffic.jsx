@@ -16,7 +16,7 @@ const Traffic = ({name}) => {
             };
             axios({
                 method: 'get',
-                url: 'https://gateway.vim365.com/checkcards/cards',
+                url: 'http://localhost:8000/checkcards/cards',
                 headers: {
                     'security-header': 'Vim365Aputek/2020.04',
                     Authorization: localStorage.getItem('token'),

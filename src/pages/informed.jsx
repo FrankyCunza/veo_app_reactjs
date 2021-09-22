@@ -2,12 +2,13 @@ import React, { useReducer, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Skeleton from '../components/skeleton';
 import  { Redirect, useHistory } from 'react-router-dom'
-
+import { Alert } from '../components/alert';
 const Informed = () => {
     let history = useHistory()
     const [data, setData] = useState([])
     const [isLoading, setLoading] = useState(true)
-
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
+    const [showAlert, setShowAlert] = useState(false)
     useEffect(() => {
         getData()
     }, [])
@@ -22,7 +23,7 @@ const Informed = () => {
             const id = localStorage.getItem('id')
             const company_id = localStorage.getItem('company_id')
             const end_point = localStorage.getItem('end_point')
-            fetch(`https://gateway.vim365.com/news/api/v1.0/get-news?company_id=${company_id}&end_point=${end_point}`, {
+            fetch(`http://localhost:8000/news/api/v1.0/get-news?company_id=${company_id}&end_point=${end_point}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'security-header': 'Vim365Aputek/2020.04',
@@ -38,7 +39,9 @@ const Informed = () => {
                     // alert(JSON.stringify(json))
                 })
                 .catch((error) => {
-                    alert(error)
+                    // alert(error)
+                    setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+                    setShowAlert(true)
             });
           } catch(e) {
             alert(e)
@@ -50,6 +53,7 @@ const Informed = () => {
                 <Link to="/home" className="text-blue-500 text-left pt-4 flex">
                     <p>Atrás</p>
                 </Link>
+                {showAlert && <Alert props={messageAlert} />}
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Noticias</h1>
                 <div className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6">
                     {isLoading &&<Skeleton quantity={4} />}

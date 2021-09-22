@@ -2,6 +2,8 @@ import React, { useReducer, useState, useEffect } from 'react';
 import axios from 'axios'
 import  { Redirect, useHistory } from 'react-router-dom'
 import Loader from '../components/loader';
+import { Alert } from '../components/alert';
+
 const formReducer = (state, event) => {
     return {
       ...state,
@@ -13,6 +15,8 @@ const Login = () => {
     let history = useHistory()
     const [formData, setFormData] = useReducer(formReducer, {});
     const [submitting, setSubmitting] = useState(false);
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
+    const [showAlert, setShowAlert] = useState(false)
 
     useEffect(() => {
         
@@ -33,10 +37,10 @@ const Login = () => {
             password: formData.password,
             social: false
         }
-
+        // https://gatewaay.vim365.com
         axios({
             method: 'get',
-            url: 'https://gateway.vim365.com/users/checkuser',
+            url: 'http://localhost:8000/users/checkuser',
             headers: {
                 'security-header': 'Vim365Aputek/2020.04'
             },
@@ -48,6 +52,10 @@ const Login = () => {
             }
             history.push("/home")
             // return <Redirect to='/daily'  />
+        }).catch(err => {
+            setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/', state: 'error'})
+            setShowAlert(true)
+            setSubmitting(false)
         })
     }
     return (
@@ -55,6 +63,7 @@ const Login = () => {
             <div className="flex justify-center pt-10">
                 <img src="./assets/img/logo-veo365.png" alt="" />
             </div>
+            {showAlert && <Alert props={messageAlert} />}
             <div>
                 <h1 className="text-4xl font-bold py-6 text-white">Iniciar sesión</h1>
             </div>

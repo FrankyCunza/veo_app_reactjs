@@ -11,7 +11,7 @@ const Home = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'https://gateway.vim365.com/first-menu/menu',
+            url: 'http://localhost:8000/first-menu/menu',
             headers: {
                 'security-header': 'Vim365Aputek/2020.04',
                 Authorization: localStorage.getItem('token'),

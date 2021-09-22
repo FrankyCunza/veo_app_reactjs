@@ -29,7 +29,7 @@ const Daily = () => {
 
         axios({
             method: 'get',
-            url: 'https://gateway.vim365.com/checkcards/cards',
+            url: 'http://localhost:8000/checkcards/cards',
             headers: {
                 'security-header': 'Vim365Aputek/2020.04',
                 Authorization: localStorage.getItem('token'),
@@ -86,7 +86,7 @@ const Daily = () => {
         };
         axios({
             method: 'post',
-            url: 'https://gateway.vim365.com/saveform/saveform',
+            url: 'http://localhost:8000/saveform/saveform',
             headers: {
                 'Content-Type': 'application/json',
                 'security-header': 'Vim365Aputek/2020.04',

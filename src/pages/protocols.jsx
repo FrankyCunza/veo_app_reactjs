@@ -21,7 +21,7 @@ const Protocols = () => {
         };
         axios({
             method: 'get',
-            url: 'https://gateway.vim365.com/cardslides/slides',
+            url: 'http://localhost:8000/cardslides/slides',
             headers: {
                 'security-header': 'Vim365Aputek/2020.04',
                 Authorization: localStorage.getItem('token'),

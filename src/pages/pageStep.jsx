@@ -87,7 +87,7 @@ const PageStep = () => {
             }
             const token = localStorage.getItem('token')
             const id = localStorage.getItem('id')
-            fetch('https://gateway.vim365.com/saveform/saveform', {
+            fetch('http://localhost:8000/saveform/saveform', {
                 method: 'POST',
                 body: JSON.stringify(dataSend),
                 headers: {

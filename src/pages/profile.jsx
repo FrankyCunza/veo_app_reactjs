@@ -270,7 +270,7 @@ const Profile = () => {
       const id = localStorage.getItem('id')
       const company_id = localStorage.getItem('company_id')
       const end_point = localStorage.getItem('end_point')
-      fetch(`https://gateway.vim365.com/checkcards/cards?company_id=${company_id}&end_point=${end_point}&page=profileForm`, {
+      fetch(`http://localhost:8000/checkcards/cards?company_id=${company_id}&end_point=${end_point}&page=profileForm`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -302,13 +302,15 @@ const Profile = () => {
       })
       .catch((error) => {
         // alert('Error Save Form1', error)
+        setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+        setShowAlert(true)
       });
     }
 
     const getProfile = () => {
       axios({
         method: 'get',
-        url: 'https://gateway.vim365.com/users/getprofile',
+        url: 'http://localhost:8000/users/getprofile',
         headers: {
           'security-header': 'Vim365Aputek/2020.04',
           Authorization: localStorage.getItem('token'),
@@ -350,7 +352,7 @@ const Profile = () => {
       try {
         const token = localStorage.getItem('token')
         const id = localStorage.getItem('id')
-        fetch('https://gateway.vim365.com/users/saveprofile', {
+        fetch('http://localhost:8000/users/saveprofile', {
           method: 'POST',
           body: JSON.stringify({data: dataSend}),
           headers: {

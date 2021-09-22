@@ -43,7 +43,7 @@ const AuxiliaryControls = () => {
                             {
                                 "title": "Tos",
                                 "icon": "../../assets/svgs/icon-2.svg",
-                                "value": true
+                                "value": false
                             },
                             {
                                 "title": "Gripe",
