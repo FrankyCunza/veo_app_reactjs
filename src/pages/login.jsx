@@ -47,10 +47,16 @@ const Login = () => {
             params: param
         }).then(data => {
             console.log(data.data)
-            for (const [key, value] of Object.entries(data.data)) {
-                localStorage.setItem(key, value)
+            if (!data.data.error) {
+                for (const [key, value] of Object.entries(data.data)) {
+                    localStorage.setItem(key, value)
+                }
+                history.push("/home")
+            } else {
+                setMessageAlert({title: data.data.message, message: data.data.message, route: '/', state: 'error'})
+                setShowAlert(true)
+                setSubmitting(false)
             }
-            history.push("/home")
             // return <Redirect to='/daily'  />
         }).catch(err => {
             setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/', state: 'error'})
