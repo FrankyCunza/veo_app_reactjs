@@ -3,11 +3,14 @@ import axios from 'axios'
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import Skeleton from '../components/skeleton';
 import  { Redirect, useHistory } from 'react-router-dom'
+import { Alert } from '../components/alert';
 
 const Home = () => {
     let history = useHistory()
     const [main, setMain] = useState([]);
     const [isLoading, setLoading] = useState(true)
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
+    const [showAlert, setShowAlert] = useState(false)
     useEffect(() => {
         axios({
             method: 'get',
@@ -21,8 +24,15 @@ const Home = () => {
                 end_point: localStorage.getItem("end_point")
             }
         }).then(response => {
-            setMain(response.data.data )
-            setLoading(false)
+            console.log(response)
+            if (!response.data.error) {
+                setMain(response.data.data )
+                setLoading(false)
+            } else {
+                setLoading(false)
+                setMessageAlert({title: response.data.message, message: response.data.message, route: '/login', state: 'error'})
+                setShowAlert(true)
+            }
         }, [])
     }, []);
 
@@ -36,6 +46,7 @@ const Home = () => {
             <div className="flex justify-center py-10">
                 <img src="./assets/img/logo-veo365.png" alt="" />
             </div>
+            {showAlert && <Alert props={messageAlert} />}
             <div className="max-w-3xl mx-auto">
                 <div className="grid grid-cols-3 gap-6">
                     {isLoading ? <Skeleton quantity={9} /> : 

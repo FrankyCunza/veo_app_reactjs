@@ -13,6 +13,7 @@ import InformedArticle from './pages/informedArticle';
 import AuxiliaryControls from './pages/auxiliaryControls';
 import AuxiliaryControlsForm from './pages/auxiliaryControlsForm';
 import Profile from './pages/profile';
+import Register from './pages/register';
 function App() {
   return (
     <BrowserRouter>
@@ -38,6 +39,9 @@ function App() {
         </Route>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/register">
+          <Register />
         </Route>
         <Route path="/testdiario">
           <Daily />
