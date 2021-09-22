@@ -270,41 +270,42 @@ const Profile = () => {
       const id = localStorage.getItem('id')
       const company_id = localStorage.getItem('company_id')
       const end_point = localStorage.getItem('end_point')
-      fetch(`http://localhost:8000/checkcards/cards?company_id=${company_id}&end_point=${end_point}&page=profileForm`, {
-        method: 'GET',
+
+      const param = {
+        company_id: localStorage.getItem('company_id'),
+        end_point: localStorage.getItem('end_point'),
+        page: 'profileForm'
+      };
+
+      axios({
+        method: 'get',
+        url: `http://localhost:8000/checkcards/cards`,
         headers: {
-          'Content-Type': 'application/json',
-          'security-header': 'Vim365Aputek/2020.04',
-          Authorization: token,
-          id: id
-        }
-      })
-      .then((response) => response.json())
-      .then((json) => {
-        setForm(json)
-        for (let i=0; i<json.data.length; i++) {
-          fieldTypes[json.data[i].name] = json.data[i].type
-          if (json.data[i].type === 'field_text' || 
-            json.data[i].type === 'field_date' || 
-            json.data[i].type === 'field_select' || 
-            json.data[i].type === 'field_radio_conditional' || json.data[i].type === 'field_radio_options') {
-            setValue(json.data[i].name, '')
-          } else if (json.data[i].type === 'field_checkboxes') {
-            console.log(json.data[i])
+            'security-header': 'Vim365Aputek/2020.04',
+            Authorization: localStorage.getItem('token'),
+            id: localStorage.getItem('id')
+        },
+        params: param
+      }).then(response => {
+        setForm(response.data)
+        setLoading(false)
+        for (let i=0; i<response.data.data.length; i++) {
+          fieldTypes[response.data.data[i].name] = response.data.data[i].type
+          if (response.data.data[i].type === 'field_text' || 
+            response.data.data[i].type === 'field_date' || 
+            response.data.data[i].type === 'field_select' || 
+            response.data.data[i].type === 'field_radio_conditional' || response.data.data[i].type === 'field_radio_options') {
+            setValue(response.data.data[i].name, '')
+          } else if (response.data.data[i].type === 'field_checkboxes') {
             let newArray = {}
-            for (let s=0; s<json.data[i].data.length; s++) {
-              newArray[json.data[i].data[s].title] = false
+            for (let s=0; s<response.data.data[i].data.length; s++) {
+              newArray[response.data.data[i].data[s].title] = false
             }
-            setValue(json.data[i].name, newArray)
+            setValue(response.data.data[i].name, newArray)
           }
         }
         getProfile()
-      })
-      .catch((error) => {
-        // alert('Error Save Form1', error)
-        setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
-        setShowAlert(true)
-      });
+      }, [])
     }
 
     const getProfile = () => {
@@ -317,7 +318,8 @@ const Profile = () => {
           id: localStorage.getItem('id')
         },
       }).then(response => {
-          let getValues = response.data.data.data
+          let getValues = response.data.data
+          console.log(getValues)
           for (const [key, value] of Object.entries(getValues)) {
             if (fieldTypes[key] === 'field_text' || fieldTypes[key] === 'field_date' || fieldTypes[key] === 'field_number' || fieldTypes[key] === 'field_select' || fieldTypes[key] === 'field_radio_conditional' || fieldTypes[key] === 'field_radio_options') {
               setValue(key, value)
