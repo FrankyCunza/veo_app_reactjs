@@ -4,12 +4,14 @@ import axios from 'axios'
 import { Link } from 'react-router-dom';
 import Skeleton from '../components/skeleton';
 import { useForm } from "react-hook-form";
+import  { Redirect, useHistory } from 'react-router-dom'
 import Loader from '../components/loader';
 import { Alert } from '../components/alert';
-import  { Redirect, useHistory } from 'react-router-dom'
 const AuxiliaryControls = () => {
     let history = useHistory()
     const [isLoading, setLoading] = useState(true)
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
+    const [showAlert, setShowAlert] = useState(false)
     const [data, setData] = useState({
         "error": false,
         "form": [
@@ -145,11 +147,20 @@ const AuxiliaryControls = () => {
             params: param
         }).then(response => {
             console.log(response.data)
-            setData(response.data)
-        }, [])
+            if (response.data.error) {
+                setMessageAlert({title: response.data.message, message: response.data.message, route: '/home', state: 'error'})
+                setShowAlert(true)
+            } else {
+                setData(response.data)
+            }
+        }, []).catch((error) => {
+            setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+            setShowAlert(true)
+        })
     }
 
     const goToForm = (item) => {
+        console.log(item)
         history.push("/auxiliaryControlsForm", {data: item})
     };
 
@@ -161,6 +172,7 @@ const AuxiliaryControls = () => {
                 </Link>
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">Auxiliary Controls</h1>
             </div>
+            {showAlert && <Alert props={messageAlert} />}
             <div className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6">
                 {isLoading &&<Skeleton quantity={4} />}
                 {data.form.length>0 && data.form.map((el, i) => {
