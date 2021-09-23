@@ -72,3 +72,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # Route
 https://www.pluralsight.com/guides/how-to-set-react-router-default-route-redirect-to-home
+
+ssh -fN ubuntu@51.161.82.22 -L 8000:localhost:8000
+ssh -fN ubuntu@51.161.82.22 -L 9002:localhost:9002

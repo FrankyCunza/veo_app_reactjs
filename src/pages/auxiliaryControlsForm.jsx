@@ -10,6 +10,8 @@ const AuxiliaryControlsForm = () => {
     let history = useHistory()
     const location = useLocation();
     const [data, setData] = useState(location.state.data)
+    const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
+    const [showAlert, setShowAlert] = useState(false)
 
     useEffect(() => {
         for (let i=0; i<data.form.length; i++) {
@@ -31,7 +33,36 @@ const AuxiliaryControlsForm = () => {
         }
     }, [])
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        console.log(data);
+        axios({
+            method: 'post',
+            url: 'http://localhost:8000/saveform/worker-auxiliary-control-daily',
+            headers: {
+                'Content-Type': 'application/json',
+                'security-header': 'Vim365Aputek/2020.04',
+                Authorization: localStorage.getItem('token'),
+                id: localStorage.getItem('id')
+            },
+            data: JSON.stringify(
+                {
+                    "worker_id": localStorage.getItem('worker_id'),
+                    "auxiliary_control": data
+                }
+            )
+        })
+        .then((response) => {
+            console.log(response.data)
+            if (response.data.error) {
+                setMessageAlert({title: response.data.message, message: response.data.message, route: '/home', state: 'error'})
+                setShowAlert(true)
+            } else {
+                setMessageAlert({title: response.data.message, message: response.data.message, route: '/home', state: 'success'})
+                setShowAlert(true)
+            }
+        }).catch(function (error) {
+        })
+    }
 
     const animateSlide = (id, index) => {
         document.getElementById(`${id}`).style.transform = `translateX(-${index}00%)`
@@ -45,6 +76,7 @@ const AuxiliaryControlsForm = () => {
                 </a>
                 <h1 className="text-3xl font-bold text-left pt-4 text-gray-800">{data.title}</h1>
             </div>
+            {showAlert && <Alert props={messageAlert} />}
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
                 {
                     data.form.map((el, i) => {

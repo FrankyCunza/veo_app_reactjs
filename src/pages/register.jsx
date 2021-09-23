@@ -1,6 +1,5 @@
 import React, { useReducer, useState, useEffect } from 'react';
-import axios from 'axios'
-import  { Redirect, useHistory } from 'react-router-dom'
+import  { useHistory } from 'react-router-dom'
 import Loader from '../components/loader';
 import { Alert } from '../components/alert';
 

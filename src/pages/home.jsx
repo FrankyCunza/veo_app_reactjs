@@ -4,13 +4,15 @@ import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import Skeleton from '../components/skeleton';
 import  { Redirect, useHistory } from 'react-router-dom'
 import { Alert } from '../components/alert';
-
+import RegisterOnceTime from '../components/registerOnceTime';
 const Home = () => {
     let history = useHistory()
     const [main, setMain] = useState([]);
     const [isLoading, setLoading] = useState(true)
     const [messageAlert, setMessageAlert] = useState({title: '', message: '', route: '', state: ''})
     const [showAlert, setShowAlert] = useState(false)
+    const [showModalOnceRegister, setShowModalOnceRegister] = useState(localStorage.getItem("verify")=="False" ? true : false)
+    console.log(localStorage.getItem("verify"))
     useEffect(() => {
         axios({
             method: 'get',
@@ -24,7 +26,7 @@ const Home = () => {
                 end_point: localStorage.getItem("end_point")
             }
         }).then(response => {
-            console.log(response)
+            console.log(response.data.data)
             if (!response.data.error) {
                 setMain(response.data.data )
                 setLoading(false)
@@ -43,6 +45,7 @@ const Home = () => {
 
     return (
         <div className="bg-gray-200 h-full overflow-x-hidden w-full pb-14 min-h-screen">
+            {showModalOnceRegister && <RegisterOnceTime />}
             <div className="flex justify-center py-10">
                 <img src="./assets/img/logo-veo365.png" alt="" />
             </div>

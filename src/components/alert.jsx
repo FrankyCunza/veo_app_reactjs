@@ -36,7 +36,7 @@ const Alert = ( { props } ) => {
     }
 
     return (
-        <div className={`fixed w-full h-full top-0 left-0 z-10 flex items-center justify-center ${!showAlert && 'hidden'}`}>
+        <div className={`fixed w-full h-full top-0 left-0 z-10 flex pointer-events-auto items-center justify-center ${!showAlert && 'hidden'}`}>
             <div className="absolute bg-black bg-opacity-20 w-full h-full top-0 left-0" onClick={() => setShowAlert(false)}></div>
             <div className="max-w-sm w-full bg-white rounded-xl shadow-2xl px-4 py-14 z-10 text-center relative">
                 <div className="w-12 h-12 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center absolute -top-6 -right-6 cursor-pointer"

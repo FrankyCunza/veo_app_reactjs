@@ -37,6 +37,11 @@ const Profile = () => {
                     "value": "Pasaporte"
                 }
             ],
+            "name":"type_document"
+          },
+          {
+            "type":"field_text",
+            "title":"Documento:",
             "name":"document"
           },
           {
@@ -287,25 +292,35 @@ const Profile = () => {
         },
         params: param
       }).then(response => {
-        setForm(response.data)
-        setLoading(false)
-        for (let i=0; i<response.data.data.length; i++) {
-          fieldTypes[response.data.data[i].name] = response.data.data[i].type
-          if (response.data.data[i].type === 'field_text' || 
-            response.data.data[i].type === 'field_date' || 
-            response.data.data[i].type === 'field_select' || 
-            response.data.data[i].type === 'field_radio_conditional' || response.data.data[i].type === 'field_radio_options') {
-            setValue(response.data.data[i].name, '')
-          } else if (response.data.data[i].type === 'field_checkboxes') {
-            let newArray = {}
-            for (let s=0; s<response.data.data[i].data.length; s++) {
-              newArray[response.data.data[i].data[s].title] = false
+        console.log(response.data)
+        if (!response.data.error) {
+          setForm(response.data)
+          setLoading(false)
+          for (let i=0; i<response.data.data.length; i++) {
+            fieldTypes[response.data.data[i].name] = response.data.data[i].type
+            if (response.data.data[i].type === 'field_text' || 
+              response.data.data[i].type === 'field_date' || 
+              response.data.data[i].type === 'field_select' || 
+              response.data.data[i].type === 'field_radio_conditional' || response.data.data[i].type === 'field_radio_options') {
+              setValue(response.data.data[i].name, '')
+            } else if (response.data.data[i].type === 'field_checkboxes') {
+              let newArray = {}
+              for (let s=0; s<response.data.data[i].data.length; s++) {
+                newArray[response.data.data[i].data[s].title] = false
+              }
+              setValue(response.data.data[i].name, newArray)
             }
-            setValue(response.data.data[i].name, newArray)
           }
+          getProfile()
+        } else {
+          setMessageAlert({title: response.data.title ?? response.data.message, message: response.data.message, route: '/home', state: 'error'})
+          setShowAlert(true)
         }
-        getProfile()
-      }, [])
+      }, []).catch((error) => {
+        setLoading(false)
+        setMessageAlert({title: 'Try again later', message: 'Try again later', route: '/home', state: 'error'})
+        setShowAlert(true)
+      })
     }
 
     const getProfile = () => {
@@ -402,7 +417,7 @@ const Profile = () => {
             {showAlert && <Alert props={messageAlert} />}
             <form className="grid grid-cols-2 md:grid-cols-1 gap-4 mt-6" onSubmit={handleSubmit(onSubmit)}>
             {
-              isLoading ? <Skeleton quantity={4} /> : form.data.map((el, i) => {
+              isLoading ? <Skeleton quantity={4} /> : form.data.length>0 && form.data.map((el, i) => {
                   if (el.type === "field_text") {
                     return (
                       <div className="w-full" key={'profile'+el.name}>
